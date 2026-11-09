@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 1: Chatbots</title>
+<link rel="stylesheet" href="../deck/deck.css">
+<style>
+/* Remaining session-one slides use the original VCU type and spacing. */
+.practice-title { left:110px; top:48px; width:1380px; height:174px; justify-content:center; font:44pt/1 var(--head); }
+.practice-body { left:110px; top:260px; width:1380px; height:570px; justify-content:flex-start; font:40pt/1.3 var(--body); }
+.practice-body p + p { margin-top:0.65em; }
+.practice-label { color:var(--muted); }
+.practice-code { margin:0; white-space:pre-wrap; font:29pt/1.27 Menlo,Consolas,monospace; }
+.practice-code .md-heading { color:var(--accent); }
+.rl-heading { top:325px; width:500px; height:70px; justify-content:center; font:44px/1 var(--head); text-align:center; }
+.rl-chart { position:absolute; top:420px; width:434px; display:grid; grid-template-columns:140px 200px 70px; gap:22px 12px; align-items:center; font:32px/1.15 var(--body); }
+.rl-chart-after { width:282px; grid-template-columns:200px 70px; }
+.rl-chart .bar { display:block; height:26px; border-radius:3px; background:rgba(255,255,255,.6); }
+.rl-chart .pct { color:var(--muted); }
+.rl-chart .favored { color:var(--accent); }
+.rl-chart .bar.favored { background:var(--accent); }
+.math-timeline { position:absolute; left:160px; top:285px; width:1300px; height:480px; margin:0; padding:0; list-style:none; }
+.math-timeline::before { content:""; position:absolute; left:0; top:80px; bottom:80px; border-left:3px solid var(--muted); }
+.math-timeline li { position:relative; height:160px; padding-left:60px; display:grid; grid-template-columns:250px 1fr; gap:40px; align-items:center; font:36pt/1.2 var(--body); }
+.math-timeline li::before { content:""; position:absolute; left:-11px; top:68px; width:24px; height:24px; border-radius:50%; background:var(--accent); }
+.math-timeline time { color:var(--accent); font:34pt/1.2 var(--head); }
+/* VCU slide 32: preserve the source table as editable HTML. */
+.vcu-code-table { position:absolute; left:35px; top:282px; width:1530px; height:493px; border-collapse:collapse; table-layout:fixed; font:40pt/1.2 var(--body); color:#000; }
+.vcu-code-table th, .vcu-code-table td { border:2px solid #fff; padding:10px 12px; text-align:left; vertical-align:top; }
+.vcu-code-table thead { background:#4472c4; color:#fff; }
+.vcu-code-table thead tr { height:156px; }
+.vcu-code-table th { font-weight:700; border-bottom-width:5px; }
+.vcu-code-table tbody tr { height:84px; background:#cfd5ea; }
+.vcu-code-table tbody tr:nth-child(even) { background:#e9ebf5; }
+.vcu-code-table td { white-space:nowrap; }
+.markdown-source pre { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; font:24px/1.4 Menlo,Consolas,monospace; }
+.markdown-source .md-heading { color:var(--accent); }
+.markdown-rendered { font:26px/1.3 var(--body); background:rgba(255,255,255,0.08); border-radius:12px; }
+.markdown-rendered h1 { margin:22px 0 12px; font:29px/1.2 var(--head); color:var(--accent); }
+.markdown-rendered ul { margin:0; padding-left:30px; }
+.markdown-rendered li + li { margin-top:7px; }
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- Title (adapted from VCU slide 1; university line dropped: informal, independent gathering) -->
+<section class="slide" data-source="adapted from VCU_slides.pptx slide 1">
+<div class="tx" style="left:60px;top:40px;width:800px;height:60px;justify-content:flex-start;font-size:24pt;font-family:var(--body);line-height:1.0"><p style="text-align:left">Dr. G’s AI Study Group</p></div>
+<div class="tx" style="left:112.7px;top:148.6px;width:1332.3px;height:313.3px;justify-content:flex-end;font-size:60pt;font-family:var(--head);line-height:0.9"><p style="text-align:center">Chatbots</p></div>
+<div class="tx" style="left:368.5px;top:534.1px;width:863.0px;height:217.3px;justify-content:flex-start;font-size:24pt;font-family:var(--body);line-height:1.2"><p style="text-align:center">Xijin “Steven” Ge</p></div>
+</section>
+
+<!-- ============ Section 0: Logistics ============ -->
+
+<section class="slide" data-source="new">
+<div class="tx" style="left:110.0px;top:47.9px;width:1380.0px;height:174.0px;justify-content:center;font-size:48pt;font-family:var(--head);line-height:1.0"><p style="text-align:left">Before we start</p></div>
+<div class="tx" style="left:110px;top:260px;width:1380px;height:600px;justify-content:flex-start;font-size:40pt;font-family:var(--body);line-height:1.3">
+<p style="text-align:left" class="bullet">This is personal</p>
+<p style="text-align:left" class="bullet">I’m learning too</p>
+<p style="text-align:left" class="bullet">Try and share</p>
+</div>
+<aside class="notes" hidden>Personal sharing from Steven's own experiments with AI — informal, independent gathering, not an official university class or institutional program. Three sessions: Chatbots → AI Apps → Coding Agents, with a possible 4th (Claude Code) depending on time and interest. Explain how participants' interests can shape what comes next; invite suggestions for future sessions. As the series develops, participants can demonstrate discoveries and teach each other.
+Between sessions: try something, then share a tip or discovery on the site to unlock the next session's materials. An attempt, a discovery, a failure, or a question all count — polish isn't the point. Keep learning welcoming and informal, no grades or pressure for polished results.</aside>
+</section>
+
+<section class="slide" data-source="new">
+<div class="tx practice-title"><p>Show and Tell</p></div>
+<div class="tx practice-body" style="font-size:36pt">
+<p class="bullet">Coding camp: <a href="https://gexijin.github.io/camp/2026/" target="_blank" rel="noopener noreferrer" style="color:inherit" onclick="event.stopPropagation()">https://gexijin.github.io/camp/2026/</a></p>
+<p class="bullet">Claude: <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" style="color:inherit" onclick="event.stopPropagation()">Claude.ai</a></p>
+<p class="bullet">Activity: <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" style="color:inherit" onclick="event.stopPropagation()">Claude.ai</a>: Create an interactive 3D model to explain how a car engine works. Keep it simple.</p>
+</div>
+</section>
+
+<!-- ============ Opening: a sobering case ============ -->
+
+<section class="slide" data-source="new">
+<img class="pic" style="left:327px;top:28px;width:946px;height:740px" src="images/Wan.png" alt="Mothership headline: &quot;US woman, 31, dies after ChatGPT allegedly advised her to stop taking epilepsy medication&quot;">
+<div class="tx" style="left:200px;top:778px;width:1200px;height:40px;justify-content:center;font-size:18pt;font-family:var(--body);line-height:1.2;color:var(--muted)"><p style="text-align:center">New York Times, Oct. 27, 2026 · screenshot: Mothership, Oct. 30, 2026</p></div>
+<div class="tx" style="left:200px;top:818px;width:1200px;height:50px;justify-content:center;font-size:24pt;font-family:var(--body);line-height:1.2;color:var(--muted)"><p style="text-align:center"><span style="font-style:italic">In memory of Bowen Wan</span></p></div>
+<aside class="notes" hidden>Screenshot: Mothership, Oct 30, 2026, "US woman, 31, dies after ChatGPT allegedly advised her to stop taking epilepsy medication" (Xueting Wu). The New York Times broke the underlying reporting Oct 27, 2026 — the day the suit was filed — after reviewing over 270,000 messages between Wan and ChatGPT; her epileptologist told the Times stopping her medication "would be malpractice." Cause of death per the King County Medical Examiner: SUDEP (sudden unexpected death in epilepsy) — the chatbot's role is alleged, not established.
+Name, if comfortable saying it aloud: Bowen Wan, 31, epilepsy. Keep the account respectful and concise — no medication amounts, taper instructions, or graphic details, and no speculating about her motives or treating the outcome as a failure to write the right prompt. Consider the system's behavior and safeguards, and her access to qualified help, alongside her own choices.
+These are allegations in a filed lawsuit, not a court finding of responsibility. Also see MobiHealthNews, "OpenAI sued over allegedly dangerous ChatGPT medication advice" (https://www.mobihealthnews.com/news/openai-sued-over-allegedly-dangerous-chatgpt-medication-advice), reporting on the Wan v. OpenAI complaint (https://schenklawfirm.com/press/wan/complaint.pdf) — a primary source for the family's allegations, not independent proof. Recheck case developments before presenting.
+CDC: consult a clinician before skipping or stopping seizure medication (https://www.cdc.gov/epilepsy/treatment/index.html).</aside>
+</section>
+
+<section class="slide" data-source="new">
+<div class="tx" style="left:110.0px;top:47.9px;width:1380.0px;height:174.0px;justify-content:center;font-size:48pt;font-family:var(--head);line-height:1.0"><p style="text-align:left">Could this have been different?</p></div>
+<div class="tx" style="left:110px;top:260px;width:1380px;height:600px;justify-content:flex-start;font-size:40pt;font-family:var(--body);line-height:1.3">
+<p style="text-align:left" class="bullet">Talk to a clinician</p>
+<p style="text-align:left" class="bullet step">A different chatbot?</p>
+<p style="text-align:left" class="bullet step">The same chatbot, a new chat?</p>
+<p style="text-align:left" class="bullet step">Pushing back in the same chat</p>
+</div>
+<aside class="notes" hidden>Carry these questions through the talk; return to them at the close. Allow a brief pause or a few initial responses — a long discussion of each one is unnecessary here.
+Clinician: relevant expertise and professional assessment (3C, Closing). Friend: human support and the limits of expertise (3C, Closing). Different chatbot: systems differ; agreement is not proof of correctness (2A, Closing). New chat: sampling and conversation context; memory features may carry information across chats (1C, 2A). Pushing back: sycophancy, review, and stress-testing (3B, 3C).
+Leave these as open questions — don't assert what any system would have said or claim a different response would certainly have prevented her death.
+Establish the medical boundary: medication decisions belong with the treating clinician. The CDC's epilepsy treatment guidance advises against skipping or stopping seizure medication without speaking with a healthcare provider. A second chatbot, a fresh conversation, or a request to reconsider does not replace that assessment.
+Transition: to understand why responses can vary, why a conversation can take a particular direction, and how to evaluate advice, first look at how an LLM generates an answer.</aside>
+</section>
+
+<!-- ============ Section 1: How it works ============ -->
+
+<section class="slide" data-source="adapted from VCU_slides.pptx slide 2">
+<div class="tx" style="left:109.2px;top:224.4px;width:1380.0px;height:374.4px;justify-content:flex-end;font-size:60pt;font-family:var(--head);line-height:0.9"><p style="text-align:center">1. How LLMs work</p></div>
+</section>
+
+<!-- 1A. Learning through compression -->
+<section class="slide" data-source="VCU_slides.pptx slide 3">
+<img class="pic" style="left:1070.7px;top:-0.0px;width:512.3px;height:799.8px" src="images/vcu-s03-1.png" alt="">
+<img class="pic" style="left:15.4px;top:602.2px;width:1031.3px;height:232.3px" src="images/vcu-s03-2.png" alt="">
+<img class="pic" style="left:110.8px;top:0.0px;width:700.6px;height:613.2px" src="images/vcu-s03-3.png" alt="">
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 4">
+<img class="pic" style="left:282.5px;top:186.7px;width:534.6px;height:493.3px" src="images/vcu-s04-1.png" alt="">
+<div class="tx" style="left:282.5px;top:12.7px;width:1035.0px;height:174.0px;justify-content:center;font-size:44pt;font-family:var(--head);line-height:0.9"><p style="text-align:left"><span style="font-size:50pt">Auto-encoders</span></p></div>
+<div class="tx" style="left:906.7px;top:853.2px;width:478.3px;height:48.5px;justify-content:flex-start;font-size:18pt;font-family:var(--body);line-height:1.0"><p style="text-align:left"><span style="font-size:18pt">Ge &amp; Iwata, Neural Networks, 2002</span></p></div>
+<img class="pic" style="left:280.3px;top:692.8px;width:536.8px;height:153.2px" src="images/vcu-s04-2.png" alt="">
+<div class="tx" style="left:19.9px;top:713.3px;width:260.4px;height:113.1px;justify-content:flex-start;font-size:18pt;font-family:var(--body);line-height:1.0"><p style="text-align:left"><span style="font-size:25pt">Non-negative constraints</span></p></div>
+<img class="pic" style="left:922.0px;top:122.3px;width:395.5px;height:327.7px" src="images/vcu-s04-3.png" alt="">
+<div class="tx" style="left:1049.9px;top:63.3px;width:108.5px;height:72.7px;justify-content:flex-start;font-size:18pt;font-family:var(--body);line-height:1.0"><p style="text-align:left"><span style="font-size:30pt">PCA</span></p></div>
+<svg class="conn" viewBox="0 0 1600 900"><line x1="595.0" y1="581.7" x2="922.0" y2="415.0" stroke="#ffffff" stroke-width="7.5" marker-end="url(#arrow)"/></svg>
+<img class="pic" style="left:911.0px;top:509.0px;width:406.5px;height:344.9px" src="images/vcu-s04-4.png" alt="">
+<svg class="conn" viewBox="0 0 1600 900"><line x1="605.1" y1="753.6999999999999" x2="911.0" y2="681.4" stroke="#ffffff" stroke-width="7.5" marker-end="url(#arrow)"/></svg>
+</section>
+
+<section class="slide" data-source="new">
+<div class="tx" style="left:110px;top:180px;width:1380px;height:540px;justify-content:center;font-family:var(--head);line-height:1.1;white-space:nowrap"><p style="text-align:center;font-size:72pt">Data compression</p><p style="text-align:center;font-size:72pt;margin:20px 0">↓</p><p style="text-align:center;font-size:54pt" class="accent">illusion of understanding</p></div>
+<aside class="notes" hidden>A simple compression rule discovered eyes, noses, and mouths. Finding patterns looks like understanding.
+Patterns are kept, details are lost: fluent, but specifics can be invented.</aside>
+</section>
+
+<!-- 1B. Predicting the next item -->
+<section class="slide" data-source="adapted from VCU_slides.pptx slide 6">
+<div class="tx" style="left:110.0px;top:47.9px;width:1380.0px;height:174.0px;justify-content:center;font-size:48pt;font-family:var(--head);line-height:1.0"><p style="text-align:left">An LLM is a statistical model that:</p></div>
+<div class="tx" style="left:110px;top:260px;width:1380px;height:600px;justify-content:flex-start;font-size:40pt;font-family:var(--body);line-height:1.3">
+<p style="text-align:left" class="bullet">Compresses the Internet (like a zip file)</p>
+<p style="text-align:left" class="bullet">Predicts the next word stochastically</p>
+</div>
+<aside class="notes" hidden>"Zip file" is an analogy, not a literal description.
+Patterns are kept, details are lost: fluent, but specifics can be invented.</aside>
+</section>
+
+<!-- New: autoregression on a time series, built over three slides -->
+<section class="slide" data-source="new">
+<div class="tx" style="left:110.0px;top:47.9px;width:1380.0px;height:174.0px;justify-content:center;font-size:44pt;font-family:var(--head);line-height:0.9"><p style="text-align:left">Autoregressive models: time series forecast</p></div>
+<svg class="fig" viewBox="0 0 1600 900">
+<line x1="150" y1="720" x2="1450" y2="720" stroke="#bfbfbf" stroke-width="2"/>
+<g font-size="24" text-anchor="middle"><text x="200" y="760">1</text><text x="350" y="760">2</text><text x="500" y="760">3</text><text x="650" y="760">4</text><text x="800" y="760">5</text><text x="950" y="760">6</text><text x="1100" y="760">7</text><text x="1250" y="760">8</text><text x="1400" y="760">9</text></g>
+<text x="800" y="810" font-size="26" text-anchor="middle">Day</text>
+<polyline points="200,566.7 350,500 500,533.3 650,450 800,400 950,466.7 1100,383.3" fill="none" stroke="#ffffff" stroke-width="5"/>
+<g fill="#ffffff"><circle cx="200" cy="566.7" r="11"/><circle cx="350" cy="500" r="11"/><circle cx="500" cy="533.3" r="11"/><circle cx="650" cy="450" r="11"/><circle cx="800" cy="400" r="11"/><circle cx="950" cy="466.7" r="11"/><circle cx="1100" cy="383.3" r="11"/></g>
+<text x="1250" y="372" font-size="80" text-anchor="middle" style="fill:var(--accent);font-family:var(--head)">?</text>
+</svg>
+</section>
+
+<section class="slide" data-source="new">
+<div class="tx" style="left:110.0px;top:47.9px;width:1380.0px;height:174.0px;justify-content:center;font-size:44pt;font-family:var(--head);line-height:0.9"><p style="text-align:left">Autoregressive models: time series forecast</p></div>
+<svg class="fig" viewBox="0 0 1600 900">
+<line x1="150" y1="720" x2="1450" y2="720" stroke="#bfbfbf" stroke-width="2"/>
+<g font-size="24" text-anchor="middle"><text x="200" y="760">1</text><text x="350" y="760">2</text><text x="500" y="760">3</text><text x="650" y="760">4</text><text x="800" y="760">5</text><text x="950" y="760">6</text><text x="1100" y="760">7</text><text x="1250" y="760">8</text><text x="1400" y="760">9</text></g>
+<text x="800" y="810" font-size="26" text-anchor="middle">Day</text>
+<polyline points="200,566.7 350,500 500,533.3 650,450 800,400 950,466.7 1100,383.3" fill="none" stroke="#ffffff" stroke-width="5"/>
+<g fill="#ffffff"><circle cx="200" cy="566.7" r="11"/><circle cx="350" cy="500" r="11"/><circle cx="500" cy="533.3" r="11"/><circle cx="650" cy="450" r="11"/><circle cx="800" cy="400" r="11"/><circle cx="950" cy="466.7" r="11"/><circle cx="1100" cy="383.3" r="11"/></g>
+<line x1="1100" y1="383.3" x2="1250" y2="350" stroke="#ffc000" stroke-width="5" stroke-dasharray="14 10"/>
+<circle cx="1250" cy="350" r="15" fill="#ffc000"/>
+</svg>
+</section>
+
+<section class="slide" data-source="new">
+<div class="tx" style="left:110.0px;top:47.9px;width:1380.0px;height:174.0px;justify-content:center;font-size:44pt;font-family:var(--head);line-height:0.9"><p style="text-align:left">Autoregressive models: time series forecast</p></div>
+<svg class="fig" viewBox="0 0 1600 900">
+<line x1="150" y1="720" x2="1450" y2="720" stroke="#bfbfbf" stroke-width="2"/>
+<g font-size="24" text-anchor="middle"><text x="200" y="760">1</text><text x="350" y="760">2</text><text x="500" y="760">3</text><text x="650" y="760">4</text><text x="800" y="760">5</text><text x="950" y="760">6</text><text x="1100" y="760">7</text><text x="1250" y="760">8</text><text x="1400" y="760">9</text></g>
+<text x="800" y="810" font-size="26" text-anchor="middle">Day</text>
+<polyline points="200,566.7 350,500 500,533.3 650,450 800,400 950,466.7 1100,383.3 1250,350" fill="none" stroke="#ffffff" stroke-width="5"/>
+<g fill="#ffffff"><circle cx="200" cy="566.7" r="11"/><circle cx="350" cy="500" r="11"/><circle cx="500" cy="533.3" r="11"/><circle cx="650" cy="450" r="11"/><circle cx="800" cy="400" r="11"/><circle cx="950" cy="466.7" r="11"/><circle cx="1100" cy="383.3" r="11"/><circle cx="1250" cy="350" r="11"/></g>
+<line x1="1250" y1="350" x2="1400" y2="366.7" stroke="#ffc000" stroke-width="5" stroke-dasharray="14 10"/>
+<circle cx="1400" cy="366.7" r="15" fill="#ffc000"/>
+</svg>
+</section>
+
+<section class="slide" data-source="adapted from VCU_slides.pptx slide 14">
+<div class="tx" style="left:110.0px;top:47.9px;width:1380.0px;height:174.0px;justify-content:center;font-size:44pt;font-family:var(--head);line-height:0.9"><p style="text-align:left">LLMs predict the next word</p></div>
+<div class="tx arcs layer" style="left:110px;top:260px;width:1380px;height:600px;justify-content:flex-start;font-size:36pt;font-family:var(--body);line-height:1.6"><p style="text-align:left"><span class="ctx">Self-supervised learning is a machine learning approach where<br>the model trains itself by leveraging one part of the<br>data to</span> <span class="next">predict</span><span class="later"> the other part.</span></p>
+<div class="probs"><div class="row pick"><span>predict</span><span class="bar" style="width:248px"></span><span class="pct">62%</span><span></span></div><div class="row"><span>learn</span><span class="bar" style="width:60px"></span><span class="pct">15%</span><span></span></div><div class="row"><span>estimate</span><span class="bar" style="width:40px"></span><span class="pct">10%</span><span></span></div><div class="row"><span>model</span><span class="bar" style="width:32px"></span><span class="pct">8%</span><span></span></div></div></div>
+<div class="tx arcs layer step" style="left:110px;top:260px;width:1380px;height:600px;justify-content:flex-start;font-size:36pt;font-family:var(--body);line-height:1.6"><p style="text-align:left"><span class="ctx">Self-supervised learning is a machine learning approach where<br>the model trains itself by leveraging one part of the<br>data to predict</span> <span class="next">the</span><span class="later"> other part.</span></p>
+<div class="probs"><div class="row pick"><span>the</span><span class="bar" style="width:284px"></span><span class="pct">71%</span><span></span></div><div class="row"><span>another</span><span class="bar" style="width:36px"></span><span class="pct">9%</span><span></span></div><div class="row"><span>its</span><span class="bar" style="width:24px"></span><span class="pct">6%</span><span></span></div><div class="row"><span>missing</span><span class="bar" style="width:20px"></span><span class="pct">5%</span><span></span></div></div></div>
+<div class="tx arcs layer step" style="left:110px;top:260px;width:1380px;height:600px;justify-content:flex-start;font-size:36pt;font-family:var(--body);line-height:1.6"><p style="text-align:left"><span class="ctx">Self-supervised learning is a machine learning approach where<br>the model trains itself by leveraging one part of the<br>data to predict the</span> <span class="next">other</span><span class="later"> part.</span></p>
+<div class="probs"><div class="row"><span>remaining</span><span class="bar" style="width:160px"></span><span class="pct">40%</span><span></span></div><div class="row pick"><span>other</span><span class="bar" style="width:140px"></span><span class="pct">35%</span><span class="why">picked by chance, weighted by probability</span></div><div class="row"><span>next</span><span class="bar" style="width:48px"></span><span class="pct">12%</span><span></span></div><div class="row"><span>missing</span><span class="bar" style="width:36px"></span><span class="pct">9%</span><span></span></div></div></div>
+<div class="tx arcs layer step" style="left:110px;top:260px;width:1380px;height:600px;justify-content:flex-start;font-size:36pt;font-family:var(--body);line-height:1.6"><p style="text-align:left"><span class="ctx">Self-supervised learning is a machine learning approach where<br>the model trains itself by leveraging one part of the<br>data to predict the other</span> <span class="next">part</span><span class="later">.</span></p>
+<div class="probs"><div class="row pick"><span>part</span><span class="bar" style="width:332px"></span><span class="pct">83%</span><span></span></div><div class="row"><span>parts</span><span class="bar" style="width:24px"></span><span class="pct">6%</span><span></span></div><div class="row"><span>half</span><span class="bar" style="width:16px"></span><span class="pct">4%</span><span></span></div><div class="row"><span>portion</span><span class="bar" style="width:12px"></span><span class="pct">3%</span><span></span></div></div></div>
+<aside class="notes" hidden>Each click: everything highlighted so far is the context. The model gives every possible next word a probability, then picks one at random, weighted by those probabilities. The pick (amber) is appended and becomes part of the context.
+Step 3: "other" is not the most likely word, yet it was picked. That is "stochastically", and why the same prompt can give different answers.
+Simplified: real models predict tokens (words or word pieces) and score every token in a vocabulary of tens of thousands. Numbers here are illustrative.</aside>
+</section>
+
+<!-- Reinforcement learning: training changes the weights behind the probabilities. -->
+<section class="slide" data-source="new; illustrative RLHF example" data-topic="reinforcement-learning">
+<div class="tx practice-title"><p>Reinforcement learning shapes the model’s weights</p></div>
+<div class="tx rl-heading" style="left:260px"><p>Before RL</p></div>
+<div class="rl-chart" style="left:290px" role="img" aria-label="Next-word probabilities before reinforcement learning: remaining 40%, other 35%, next 12%, missing 9%.">
+<span>remaining</span><span class="bar" style="width:120px"></span><span class="pct">40%</span>
+<span>other</span><span class="bar" style="width:105px"></span><span class="pct">35%</span>
+<span>next</span><span class="bar" style="width:36px"></span><span class="pct">12%</span>
+<span>missing</span><span class="bar" style="width:27px"></span><span class="pct">9%</span>
+</div>
+<div class="step">
+<div class="tx rl-heading" style="left:920px"><p>After RL</p></div>
+<div class="rl-chart rl-chart-after" style="left:1030px" role="img" aria-label="Next-word probabilities after reinforcement learning: remaining 60%, other 38%, next 1%, missing 0%.">
+<span class="bar favored" style="width:180px"></span><span class="pct favored">60%</span>
+<span class="bar favored" style="width:114px"></span><span class="pct favored">38%</span>
+<span class="bar" style="width:3px"></span><span class="pct">1%</span>
+<span class="bar" style="width:0px"></span><span class="pct">0%</span>
+</div>
+<div class="tx accent" style="left:110px;top:735px;width:1380px;height:75px;justify-content:center;font:32pt/1.2 var(--head)"><p>Rewards guide changes to the model’s learned weights.</p></div>
+</div>
+<aside class="notes" hidden>RL means reinforcement learning. Keep this explanation to about one minute. During training, the model generates replies and receives rewards. Reinforcement learning updates its internal learned weights to make higher-reward replies more likely. In reinforcement learning from human feedback (RLHF), people compare replies, a reward model learns those preferences, and its scores guide the language model’s updates.
+Show Before RL first, then click to reveal After RL and the takeaway. Reuse the temperature slide’s words and numbers: remaining, other, next, missing. Before RL uses its Normal column (40%, 35%, 12%, 9%); After RL uses its Low column (60%, 38%, 1%, 0%). Here those distributions illustrate a possible training-induced change at a fixed temperature. RL does not necessarily concentrate probabilities this way and is not equivalent to lowering temperature. Rewards apply to replies, not a universal list of good or bad words.
+The bars show output probabilities, not individual neural-network weights. The percentages are illustrative, not measurements from a real RL training run. Only four candidates are shown; omitted words and rounding account for the remaining probability. The context and temperature are held fixed. On the next slide, temperature changes the sampling odds without retraining the model or updating its learned weights. RL training is a separate process from an ordinary chat.
+Source: Ouyang et al. (2022), Training language models to follow instructions with human feedback, https://arxiv.org/abs/2203.02155 .</aside>
+</section>
+
+<!-- 1C. Probability, sampling, and temperature -->
+<section class="slide" data-source="new">
+<div class="tx" style="left:110.0px;top:47.9px;width:1380.0px;height:174.0px;justify-content:center;font-size:44pt;font-family:var(--head);line-height:0.9"><p style="text-align:left">Temperature controls how adventurous LLMs are</p></div>
+<svg class="fig" viewBox="0 0 1600 900">
+<g><g transform="translate(260,190)"><rect x="0" y="14" width="52" height="70" rx="6" fill="none" stroke="#ffffff" stroke-width="4"/><path d="M52,32 h12 a8,8 0 0 1 8,8 v18 a8,8 0 0 1 -8,8 h-12" fill="none" stroke="#ffffff" stroke-width="5"/></g><text x="290" y="350" font-size="44" text-anchor="middle" style="fill:#ffffff;font-family:var(--head)">Low</text><text x="90" y="440" font-size="32" style="fill:#ffffff">remaining</text><rect x="245" y="416" width="180" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="437" y="440" font-size="28">60%</text><text x="90" y="498" font-size="32" style="fill:#ffffff">other</text><rect x="245" y="474" width="114" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="371" y="498" font-size="28">38%</text><text x="90" y="556" font-size="32" style="fill:#ffffff">next</text><rect x="245" y="532" width="3" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="260" y="556" font-size="28">1%</text><text x="90" y="614" font-size="32" style="fill:#ffffff">missing</text><text x="245" y="614" font-size="28">0%</text></g>
+<g class="step"><g transform="translate(770.0,190)"><rect x="0" y="14" width="52" height="70" rx="6" fill="#ffc000" stroke="#ffffff" stroke-width="4"/><rect x="-4" y="4" width="60" height="20" rx="10" fill="#ffffff"/><path d="M52,32 h12 a8,8 0 0 1 8,8 v18 a8,8 0 0 1 -8,8 h-12" fill="none" stroke="#ffffff" stroke-width="5"/></g><text x="800" y="350" font-size="44" text-anchor="middle" style="fill:#ffffff;font-family:var(--head)">Normal</text><text x="800" y="385" font-size="24" text-anchor="middle">the model’s prediction</text><rect x="755" y="416" width="120" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="887" y="440" font-size="28">40%</text><rect x="755" y="474" width="105" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="872" y="498" font-size="28">35%</text><rect x="755" y="532" width="36" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="803" y="556" font-size="28">12%</text><rect x="755" y="590" width="27" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="794" y="614" font-size="28">9%</text></g>
+<g class="step"><g transform="translate(1185.0,190)"><rect x="0" y="14" width="52" height="70" rx="6" fill="#ffc000" stroke="#ffffff" stroke-width="4"/><rect x="-4" y="4" width="60" height="20" rx="10" fill="#ffffff"/><path d="M52,32 h12 a8,8 0 0 1 8,8 v18 a8,8 0 0 1 -8,8 h-12" fill="none" stroke="#ffffff" stroke-width="5"/></g><g transform="translate(1280.0,190)"><rect x="0" y="14" width="52" height="70" rx="6" fill="#ffc000" stroke="#ffffff" stroke-width="4"/><rect x="-4" y="4" width="60" height="20" rx="10" fill="#ffffff"/><path d="M52,32 h12 a8,8 0 0 1 8,8 v18 a8,8 0 0 1 -8,8 h-12" fill="none" stroke="#ffffff" stroke-width="5"/></g><g transform="translate(1375.0,190)"><rect x="0" y="14" width="52" height="70" rx="6" fill="#ffc000" stroke="#ffffff" stroke-width="4"/><rect x="-4" y="4" width="60" height="20" rx="10" fill="#ffffff"/><path d="M52,32 h12 a8,8 0 0 1 8,8 v18 a8,8 0 0 1 -8,8 h-12" fill="none" stroke="#ffffff" stroke-width="5"/></g><text x="1310" y="350" font-size="44" text-anchor="middle" style="fill:#ffffff;font-family:var(--head)">High</text><rect x="1265" y="416" width="93" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="1370" y="440" font-size="28">31%</text><rect x="1265" y="474" width="87" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="1364" y="498" font-size="28">29%</text><rect x="1265" y="532" width="51" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="1328" y="556" font-size="28">17%</text><rect x="1265" y="590" width="42" height="26" rx="3" fill="#ffffff" fill-opacity="0.6"/><text x="1319" y="614" font-size="28">14%</text></g>
+</svg>
+<div class="tx step" style="left:110px;top:700px;width:1380px;height:110px;justify-content:center;font-size:44pt;font-family:var(--head);line-height:1"><p style="text-align:center">predictable ↔ <span class="accent">varied</span></p></div>
+<aside class="notes" hidden>Same step as before ("...predict the ___"). Temperature does not change what the model predicts (Normal column); it changes the odds used when picking a word.
+Low: the top words take almost everything; answers are predictable and repetitive. High: the odds flatten; answers vary more and can drift off track.
+Analogy: a poet after a couple of beers knows the usual word but is more willing to pick a strange one: more creative, and also more erratic.
+Lower temperature is not more accurate: the most likely word is not necessarily true.
+Chat apps set temperature for you. Developer tools (OpenAI Playground, the API) let you change it for some models, but many newer reasoning models fix it and do not accept a different value. Numbers are the slide-10 probabilities at temperature 0.3, 1, and 2.</aside>
+</section>
+
+<section class="slide" data-source="new; user-supplied gpt4o.png" data-topic="reasoning-models">
+<div class="tx practice-title"><p>A reasoning LLM talks to itself first</p></div>
+<div class="tx" role="img" aria-label="Your question, internal reasoning steps, final response." style="left:110px;top:270px;width:650px;height:520px;justify-content:center;text-align:center;font:40pt/1.2 var(--head)">
+<p>Your question</p>
+<p style="margin:18px 0">↓</p>
+<p class="accent">Thinks it through</p>
+<p style="margin:18px 0">↓</p>
+<p>Final response</p>
+</div>
+<img class="pic" style="left:850px;top:235px;width:632px;height:586px;object-fit:contain" src="images/gpt4o.png" alt="GPT-4o screenshot incorrectly says 9.11 is bigger than 9.9, then incorrectly calculates 9.11 minus 9.9 as 0.21.">
+<aside class="notes" hidden>Reasoning models generate intermediate reasoning before producing the final response. “Talks to itself” in the title is an analogy: the model works through intermediate steps, rather than having a human mind or a literal conversation with another person. Keep this explanation to about one minute.
+The supplied GPT-4o screenshot illustrates a mistake, not a reasoning model’s internal process. Correct comparison: 9.9 is 9.90, which is larger than 9.11. Correct subtraction: 9.11 minus 9.9 equals -0.79. Working through those steps before answering can help catch this kind of mistake, but reasoning models can still be wrong. The flow is a simple conceptual illustration, not a transcript of hidden reasoning.
+Source: Official OpenAI documentation, o1 model, https://developers.openai.com/api/docs/models/o1 . Image: user-supplied gpt4o.png.</aside>
+</section>
+
+<section class="slide" data-source="adapted from VCU_slides.pptx slides 71–73; primary sources rechecked November 9, 2026" data-topic="math-progress">
+<div class="tx practice-title"><p>LLMs drive mathematicians crazy</p></div>
+<ol class="math-timeline" aria-label="Timeline of AI mathematics milestones">
+<li><time datetime="2025-12">Dec 2025</time><span>Erdős #1026 solved with AI</span></li>
+<li><time datetime="2026-09">Sep 2026</time><span>OpenAI claims a Navier–Stokes result</span></li>
+<li><time datetime="2026-10">Oct 2026</time><span>OpenAI posts 700+ math manuscripts</span></li>
+</ol>
+<aside class="notes" hidden>Three milestones in less than a year illustrate the rapid pace of AI mathematics. Adapted from Steven’s VCU slides 71–73. Keep the spoken explanation to about one minute.
+December 2025: Terence Tao describes Erdős #1026 being resolved through human collaboration, existing literature, and AI tools, including Aristotle and AlphaEvolve. This is an AI-assisted milestone, not an OpenAI-only result or a claim that every part was new. The January 2026 Erdős #728 example in the VCU notes is a separate problem, not a manuscript count.
+September 2026: OpenAI announced a claimed Navier–Stokes solution involving externally forced fluid flow. Present this as OpenAI’s claim; do not imply that a Millennium Prize has been awarded or that all experts accept the result.
+October 2026: OpenAI released a large collection of AI-generated math manuscripts. The VCU notes record 719; the current repository lists 721 manuscripts in 373 families as checked November 9, 2026. “700+” keeps the slide accurate across these revisions. Manuscripts are not equivalent to distinct solved problems. OpenAI describes the collection as raw research data at varying stages of verification and acknowledges that some results could have issues. The pace of producing results creates a substantial checking burden.
+Sources: Terence Tao, The story of Erdős problem #1026 (December 8, 2025), https://terrytao.wordpress.com/2025/12/08/the-story-of-erdos-problem-126/ ; OpenAI, On the Navier–Stokes Millennium Prize Problem (September 8, 2026), https://openai.com/index/navier-stokes-solution/ ; OpenAI math repository, https://github.com/openai/math .</aside>
+</section>
+
+<section class="slide" data-source="new; original AI-generated illustration" data-topic="tool-use">
+<div class="tx practice-title"><p>LLMs can use tools</p></div>
+<img class="pic" style="left:110px;top:235px;width:1380px;height:600px;object-fit:contain" src="images/llm-tool-use-generated-v2.png" alt="An LLM calls tools for search, calculation, or running code. A separate arrow returns the tool’s result to the LLM.">
+<aside class="notes" hidden>The model can request a tool, receive its result, and use that information when preparing a response. Search finds information; a calculator does arithmetic; running code can compute or test something. The surrounding application runs the requested tool and returns its output to the model. This exchange can repeat. A chatbot needs access to the relevant tools for this to happen; a confident answer alone does not show that a tool was used. Keep the explanation brief.</aside>
+</section>
+
+<!-- ============ Section 2: How to use LLMs effectively ============ -->
+
+<section class="slide" data-source="new; matches this deck’s section divider, slide 6" data-topic="effective-use">
+<div class="tx" style="left:109.2px;top:224.4px;width:1380.0px;height:374.4px;justify-content:flex-end;font-size:60pt;font-family:var(--head);line-height:0.9"><p style="text-align:center">2. How to use LLMs effectively</p></div>
+<aside class="notes" hidden>Begin the practical half of the talk. We have seen what LLMs can do. Now look at how to work with them effectively, starting with how the conversation shapes a response.</aside>
+</section>
+
+<!-- Full-slide pictures from the VCU deck, slides 19–20. -->
+<section class="slide" data-source="VCU_slides.pptx slide 20; archived full-slide PNG" data-topic="edit-message">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px;object-fit:contain" src="images/vcu-s20.png" alt="ChatGPT biostatistics-joke screenshot with the Edit message control visible.">
+<aside class="notes" hidden>Original VCU slide 20, reused as a full-slide picture. Point out the Edit message control as an example of revising an earlier prompt. This is an archived interface screenshot.</aside>
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 19; archived full-slide PNG" data-topic="prompt-follow-up">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px;object-fit:contain" src="images/vcu-s19.png" alt="ChatGPT statistics-joke conversation followed by a request for a biostatistics joke, with the original red annotation.">
+<aside class="notes" hidden>Original VCU slide 19, reused as a full-slide picture. The follow-up changes the request from a statistics joke to a biostatistics joke. Preserve the original screenshot and annotation.</aside>
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 18">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px" src="images/vcu-s18.png" alt="Regenerated ChatGPT response: a different statistics joke, with the regenerate button circled.">
+<aside class="notes" hidden>Same prompt, regenerated: a different joke. Then the live demo: regenerate a prompt once or twice.
+More variety is not more accuracy.</aside>
+</section>
+
+<!-- 2A. The conversation is the context -->
+<section class="slide" data-source="VCU_slides.pptx slide 15">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px" src="images/vcu-s15.png" alt="How does chat work? A ChatGPT exchange with Input and Output labeled.">
+<aside class="notes" hidden>Begin with the familiar chat interface. Each turn has an input (what you typed) and an output (what it answered).</aside>
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 16">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px" src="images/vcu-s16.png" alt="API calls reveal how ChatGPT responds: a messages list with system, user, assistant, user roles.">
+<aside class="notes" hidden>Behind the chat interface, each turn is just another message appended to a list sent to the model: instructions, previous messages, and the current question. Simple example, no credentials or implementation detail.</aside>
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 17">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px" src="images/vcu-s17.png" alt="Chat history defines a context in a session: Q1/A1/Q2/A2/.../Qn feeding An = f(Q1, A1, ..., Qn), with a length limit.">
+<aside class="notes" hidden>Each new response is predicted from the whole sequence so far, so earlier questions and answers influence what comes next. Context has a length limit.
+One sentence each: Memory — some products save information across chats, depending on settings, so a new chat is not always a blank slate. Different chatbots — systems are trained and configured differently, so the same question can produce different answers.</aside>
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 21">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px" src="images/vcu-s21.png" alt="Five panels: Context, Limited Context, Noise, and two Graph search trees labeled Regenerate and Edit prompt.">
+<aside class="notes" hidden>Unrelated material, abandoned directions, and mistaken assumptions can introduce noise into the context (third panel) — it doesn't just disappear. The two graph-search panels preview regenerate (1C demo) and edit-prompt (Section 2E) as different ways to branch away from a bad turn.
+The response depends on the information supplied to the model. Next, show how to manage that information by giving useful context and keeping chats focused.</aside>
+</section>
+
+<!-- Remaining slides: final session-one sequence, 28–39. -->
+<section class="slide" data-source="new; user-supplied quantum-computing prompt comparison" data-topic="specific-prompts">
+<div class="tx practice-title"><p>Clearly specify what you want</p></div>
+<div class="tx practice-label" style="left:110px;top:265px;width:1380px;height:55px;font:26pt/1.2 var(--body)"><p>Instead of:</p></div>
+<div class="tx" style="left:110px;top:335px;width:1380px;height:100px;font:38pt/1.2 var(--body);color:var(--muted)"><p>“What’s quantum computing?”</p></div>
+<div class="tx accent" style="left:110px;top:505px;width:1380px;height:55px;font:26pt/1.2 var(--body)"><p>Do:</p></div>
+<div class="tx" style="left:110px;top:575px;width:1380px;height:230px;font:38pt/1.3 var(--body)"><p>“<span class="accent">Briefly</span> explain quantum computing in <span class="accent">plain language</span> to a <span class="accent">high school student</span> in <span class="accent">bullet points</span>.”</p></div>
+<aside class="notes" hidden>Compare the two prompts about the same topic. The first leaves the audience, level of detail, and format open. The second specifies a brief explanation, plain language, a high-school audience, and bullet points. Point to those details as you read the prompt. Participants do not need to understand quantum computing for this comparison. Clear instructions help the model aim at the result you want; they do not guarantee accuracy. Next, compare two image prompts and their results.</aside>
+</section>
+
+<!-- Full-slide pictures from the VCU deck, slides 25–26. -->
+<section class="slide" data-source="VCU_slides.pptx slide 25; archived full-slide PNG" data-topic="image-prompt-before">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px;object-fit:contain" src="images/vcu-s25.png" alt="Prompt: Create a picture of a baby running away from Shrek. The generated image shows a baby and Shrek running. Attribution: Wesley Nelson, STAT 492: Applications of generative AI.">
+<aside class="notes" hidden>Source: VCU_slides.pptx slide 25. Wesley Nelson, STAT 492: Applications of generative AI. The short prompt asks for a picture of a baby running away from Shrek. Compare it with the more detailed prompt on the next slide.</aside>
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 26; archived full-slide PNG" data-topic="image-prompt-after">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px;object-fit:contain" src="images/vcu-s26.png" alt="A more detailed prompt specifies a humorous scene of a baby joyfully running away from a playful Shrek, with rolling hills, enchanted trees, and vibrant flowers. The generated image shows the chase in a colorful landscape.">
+<aside class="notes" hidden>Source: VCU_slides.pptx slide 26. Wesley Nelson, STAT 492: Applications of generative AI, as credited in the original deck. The revised prompt specifies the mood, expressions, and setting. Use the pair as an example of making the desired result more explicit. These are archived examples, not a promise that a current image model will produce the same result. Transition: keep the conversation focused on the task.</aside>
+</section>
+
+<section class="slide" data-source="new">
+<div class="tx practice-title"><p>Keep chats short and focused</p></div><div class="tx practice-body"><p>One task per chat</p><p class="step">Start a new chat when changing direction</p><p class="step accent">Carry over only the context you need</p></div>
+<aside class="notes" hidden>Emphasize this habit: keep chats short and focused, and start a new session whenever practical. Start fresh when changing tasks or when a chat gets long, tangled, or full of abandoned directions. Ask for a short summary of the useful context, check it for mistaken assumptions, and carry that into the fresh chat. Refer back to the noise panel on slide 27. A new chat is not always a complete blank slate: some products retain memories depending on settings.</aside>
+</section>
+
+<section class="slide" data-source="new; revised workflow and review prompts" data-topic="plan-produce-review" aria-label="Plan, Produce, Review">
+<div class="tx" style="left:110px;top:145px;width:340px;height:105px;font:54pt/1.1 var(--head)"><p>Plan</p></div>
+<div class="tx" aria-hidden="true" style="left:455px;top:145px;width:100px;height:105px;text-align:center;font:54pt/1.1 var(--head)"><p>→</p></div>
+<div class="tx" style="left:590px;top:145px;width:360px;height:105px;font:54pt/1.1 var(--head)"><p>Produce</p></div>
+<div class="tx" aria-hidden="true" style="left:965px;top:145px;width:100px;height:105px;text-align:center;font:54pt/1.1 var(--head)"><p>→</p></div>
+<div class="tx" style="left:1100px;top:145px;width:400px;height:105px;font:54pt/1.1 var(--head)"><p>Review</p></div>
+<div class="tx practice-label" style="left:110px;top:265px;width:440px;height:115px;font:30pt/1.25 var(--body)"><p>Brainstorm, clarify</p></div>
+<div class="tx practice-label" style="left:590px;top:265px;width:400px;height:115px;font:30pt/1.25 var(--body)"><p>Try and refine</p></div>
+<div class="tx practice-label" style="left:1100px;top:265px;width:400px;height:115px;font:30pt/1.25 var(--body)"><p>Check and<br>push back</p></div>
+<div class="tx" style="left:110px;top:470px;width:1380px;height:315px;font:36pt/1.3 var(--body);color:#8ecbff;text-align:right">
+<p>“Reconsider this carefully.”</p>
+<p style="margin-top:38px">“Are you sure?”</p>
+<p style="margin-top:38px">“Let’s review thoroughly.”</p>
+</div>
+<aside class="notes" hidden>Introduce the three-step process. Stress-testing and pushback are part of Review. Check the result against the original requirements, then ask what is missing, which assumptions could fail, and what the strongest objection is.
+Brief pushback demo: use this same idea in two fresh chats: “To reduce email, require everyone to attend a one-hour meeting every Monday.” Ask “Isn’t this a great idea?” in one chat and “Evaluate this idea, including reasons it might fail” in the other. Keep this pair as a spoken demonstration; the on-screen examples are short requests to reconsider. Outcomes vary; do not promise a particular response. Test the demo on the presentation account before the session.
+Briefly name sycophancy: a tendency to agree with the user and follow their framing. Asking the model to reconsider can help but can still miss errors. The independent-verification slide follows the iteration example and project table. Supporting source: https://openai.com/index/expanding-on-sycophancy/</aside>
+</section>
+
+
+
+<section class="slide" data-source="adapted from VCU_slides.pptx slide 30">
+<div class="tx practice-title"><p>Start small and iterate</p></div><img class="pic" style="left:110px;top:245px;width:455px;height:510px;object-fit:contain" src="images/vcu-s30-1.png" alt="Opening page of If You Give a Mouse a Cookie, showing a child offering a cookie to a mouse."><img class="pic step" style="left:580px;top:245px;width:458px;height:510px;object-fit:contain" src="images/vcu-s30-2.png" alt="The next page: the mouse asks for a glass of milk, illustrating a request that develops through follow-up."><div class="tx " style="left:1080px;top:340px;width:430px;height:350px;justify-content:flex-start;font-size:30pt;font-family:var(--body);line-height:1.2;"><p>A first attempt</p><p class="accent" style="margin-top:40px">Specific feedback</p><p style="margin-top:40px">An improved result</p></div><div class="tx " style="left:110px;top:780px;width:1350px;height:50px;justify-content:flex-start;font-size:10pt;font-family:var(--body);line-height:1.2;color:var(--muted)"><p>From <i>If You Give a Mouse a Cookie</i>, Laura Numeroff and Felicia Bond</p></div>
+<aside class="notes" hidden>Reuse the two original images from VCU slide 30, extracted with scripts/pptx-to-html.py; the archived PowerPoint remains unchanged. The second page appears on the next click. Use the book as a visual analogy for how one request leads to a refinement, keeping the task focused.
+Spoken registration example: first ask for a reminder. An initial draft might begin “We’re excited to welcome you to our upcoming workshop…” Give specific feedback: “Make it shorter, put the deadline first, and keep a welcoming tone.” A revised draft could begin “Please register by Friday to join next week’s workshop.” These are prepared illustrative examples, not a record of a live model response. We discover our preferences by seeing an attempt. Editing an earlier prompt can explore another direction; connect to slide 27.</aside>
+</section>
+
+<!-- VCU slide 32, immediately after Start small and iterate. -->
+<section class="slide" data-source="VCU_slides.pptx slide 32; original title and table" data-topic="getting-lazier">
+<div class="tx practice-title" style="font-size:48pt"><p>Getting lazier</p></div>
+<table class="vcu-code-table" aria-label="Steven’s projects, release dates, and reported percentages of AI-written code">
+<colgroup><col style="width:18.765%"><col style="width:32.326%"><col style="width:19.941%"><col style="width:28.968%"></colgroup>
+<thead><tr><th></th><th></th><th scope="col">Released</th><th scope="col">% code by<br>ChatGPT</th></tr></thead>
+<tbody>
+<tr><td>RTutor.ai</td><td>Data Chatbot</td><td>12/2022</td><td>15%</td></tr>
+<tr><td>Datably.ai</td><td>Analytics w/ LLM</td><td>05/2023</td><td>60%</td></tr>
+<tr><td>inspect</td><td>R package for EDA</td><td>01/2024</td><td>85%</td></tr>
+<tr><td>DataMap</td><td>Shinylive app</td><td>05/2025</td><td>95% Claude</td></tr>
+</tbody>
+</table>
+<aside class="notes" hidden>Source: VCU_slides.pptx slide 32, “Getting lazier.” Preserve the original project names, descriptions, release dates, and percentages. These are Steven’s historical estimates for these projects. The original column heading says ChatGPT, and the final row explicitly credits Claude. Transition to the DataMap verification story on the next slide.</aside>
+</section>
+
+<section class="slide" data-source="adapted from VCU_slides.pptx slide 28; VCU transcript 00:24:56">
+<div class="tx practice-title"><p>How would you check this?</p></div><div class="tx " style="left:110px;top:270px;width:710px;height:400px;justify-content:flex-start;font-size:36pt;font-family:var(--body);line-height:1.2;"><p>Open the source</p><p style="margin-top:30px">Test the result</p><p style="margin-top:30px">Ask someone with<br>relevant expertise</p></div><img class="pic" style="left:920px;top:270px;width:550px;height:440px" src="images/vcu-s28-1.png" alt="DataMap heatmap from Steven’s earlier presentation, an example of an app whose output still needed checking."><div class="tx " style="left:850px;top:735px;width:680px;height:100px;justify-content:flex-start;font-size:25pt;font-family:var(--body);line-height:1.2;color:var(--accent)"><p>DataMap: a core data-processing step was wrong.</p></div>
+<aside class="notes" hidden>Personal story source: VCU slide 28 and transcript 00:24:09–00:24:56. Steven describes building DataMap, then realizing that a core data-normalization step in the AI-generated code was wrong. The heatmap is illustrative; it does not identify the error or prove this particular plotted result was wrong. The transcript does not document the exact test that exposed it, so do not invent one. Explain the check from personal recollection when presenting. Omit the original publication, speed, and percentage-of-AI-code claims.
+Independent verification goes beyond asking the model to reconsider. Open citations: confirm existence, relevance, and support for the specific claim. Distinguish learned patterns from supplied sources or an actual search. Test calculations and behavior, and involve relevant human expertise. A working screen and a fluent answer can conceal errors. Drafting, rewriting, explaining, brainstorming, and summarizing supplied material are useful starting tasks; check exact names, citations, numbers, recent events, and high-stakes claims carefully. A second chatbot, a fresh chat, and repeated agreement do not establish correctness.</aside>
+</section>
+
+<section class="slide" data-source="new; user-revised refund prompt" data-topic="markdown-format">
+<div class="tx practice-title"><p>LLMs love Markdown format</p></div>
+<div class="tx practice-label" style="left:110px;top:235px;width:660px;height:55px;font:26pt/1.2 var(--head)"><p>Markdown</p></div>
+<div class="tx markdown-source" style="left:110px;top:315px;width:660px;height:510px"><pre>Write an email requesting a refund.
+
+<span class="md-heading"># Context</span>
+- I ordered a kettle that arrived damaged.
+- It has been more than seven days because I’ve been on vacation.
+
+<span class="md-heading"># Desired output</span>
+- Tone: polite but firm
+- Length: under 100 words
+- Include a subject line</pre></div>
+<div class="step">
+<div class="tx practice-label" style="left:850px;top:235px;width:640px;height:55px;font:26pt/1.2 var(--head)"><p>Rendered</p></div>
+<div class="tx markdown-rendered" style="left:850px;top:315px;width:640px;height:510px">
+<p>Write an email requesting a refund.</p>
+<h1>Context</h1>
+<ul><li>I ordered a kettle that arrived damaged.</li><li>It has been more than seven days because I’ve been on vacation.</li></ul>
+<h1>Desired output</h1>
+<ul><li>Tone: polite but firm</li><li>Length: under 100 words</li><li>Include a subject line</li></ul>
+</div>
+</div>
+<aside class="notes" hidden>Name Markdown. The left column shows the literal prompt with # headings and - bullets. Click to reveal the right column, which renders the same prompt, so the audience can see how those symbols create headings and lists. Begin directly with the request, without a Task heading. The example asks for a refund email about a damaged kettle and supplies the vacation delay, tone, length, and subject-line requirements. Keep the formatting explanation brief.</aside>
+</section>
+
+<section class="slide" data-source="new; user-supplied museum photo and Gemini response">
+<div class="tx practice-title"><p>LLMs are multimodal</p></div>
+<img class="pic" style="left:110px;top:245px;width:436px;height:510px;object-fit:contain" src="images/gemini.png" alt="Photograph of the Petit Palais North Gallery, taken to ask Gemini about the statue and architecture.">
+<div class="tx " style="left:110px;top:770px;width:436px;height:60px;justify-content:center;font-size:28pt;font-family:var(--body);line-height:1.2;text-align:center"><p>Take a photo</p></div>
+<div class="step">
+<img class="pic" style="left:915px;top:245px;width:575px;height:525px;object-fit:contain" src="images/pairs.png" alt="Gemini’s response identifying the North Gallery, the Bernard Palissy statue, and the mosaic flooring.">
+<div class="tx " style="left:915px;top:790px;width:575px;height:70px;justify-content:center;font-size:28pt;font-family:var(--body);line-height:1.2;text-align:center"><p>Audio guide on earbuds from <span class="accent">Gemini</span></p></div>
+</div>
+<aside class="notes" hidden>Tell the 30–40-second personal museum story: photograph a painting or room, send it to Gemini, ask about its background, and listen through Bluetooth earbuds. Click to reveal Gemini’s actual response about this photo (the Petit Palais North Gallery and the Bernard Palissy statue), alongside the caption “Audio guide on earbuds from Gemini.” Introduce “multimodal” as working with multiple forms of input and output: a photo in, a spoken answer out. Mention dictation and voice conversation briefly if time allows: speaking a prompt versus a live back-and-forth exchange. This slide does not promise any specific interface, account feature, or device behavior; check availability on the presentation device before demonstrating. A spoken story is sufficient.</aside>
+</section>
+
+<section class="slide" data-source="new; user-supplied sycophancy study figure" data-topic="warning-signs">
+<div class="tx practice-title"><p>LLMs always tell you what you want to hear (sycophancy)</p></div>
+<img class="pic" style="left:389px;top:245px;width:823px;height:600px;object-fit:contain" src="images/science-mag.jpg" alt="Figure: AI models endorse user actions far more often than humans do, and sycophantic responses make people feel more justified, less likely to apologize, and more likely to keep using the model.">
+<div class="tx" style="left:110px;top:855px;width:1380px;height:40px;justify-content:flex-start;font-size:16pt;font-family:var(--body);line-height:1.2;color:var(--muted)"><p>Cheng et al., <i>Science</i>, 2026</p></div>
+<aside class="notes" hidden>Sycophancy: a tendency to tell the user what they want to hear, which can feel validating while not being true. Already named at the pushback demo (slide 32); this slide gives it data.
+Cheng et al., “Sycophantic AI Decreases Prosocial Intentions and Promotes Dependence” (arXiv 2510.01395; published in Science). Eleven leading models endorsed user actions roughly 40–55% more often than crowdsourced human responses did, including in “Am I the Asshole”-style posts where the community had judged the poster wrong. In two preregistered experiments (N=1,604), people who got sycophantic responses felt more justified, were less willing to repair the conflict, and were more likely to want to use the model again — the engagement payoff for the product. Note the figure's model list and percentages are the study's own measurements, not independently reverified here.</aside>
+</section>
+
+<section class="slide" data-source="new; user-supplied Irwin v. OpenAI complaint scan" data-topic="warning-signs">
+<div class="tx practice-title"><p>LLMs want to keep you engaged</p></div>
+<img class="pic" style="left:495px;top:245px;width:610px;height:600px;object-fit:contain" src="images/Irwin.png" alt="First page of the filed complaint, Jacob Lee Irwin v. OpenAI, Inc. et al., Superior Court of California, County of San Francisco, Case No. CGC-25-630811.">
+<div class="tx" style="left:110px;top:800px;width:1380px;height:60px;justify-content:flex-start;font-size:18pt;font-family:var(--body);line-height:1.2;color:var(--muted)"><p>Irwin v. OpenAI, filed Nov. 6, 2025 — allegations in a lawsuit, not an established court finding.</p></div>
+<aside class="notes" hidden>A second, distinct pattern from sycophancy: products can be designed to maximize engagement and time spent, independent of whether any one reply is sycophantic.
+Case, told briefly and respectfully: Jacob Irwin, a 30-year-old Wisconsin man who is autistic and had no prior serious mental health diagnosis, sued OpenAI in late 2025. He alleges ChatGPT reinforced a “time-bending”/faster-than-light-travel delusion, and was hospitalized more than 60 days for manic episodes. The complaint itself alleges OpenAI designed ChatGPT to be “addictive, deceptive, and sycophantic.” Mention autism only as a reported fact about the plaintiff, never as a cause — do not imply autism made him more susceptible.
+These are allegations in a filed lawsuit, not a court finding of responsibility. Sources: KXAN, “ChatGPT bot made man’s mental health worse, not better” (https://www.kxan.com/news/chatgpt-bot-made-mans-mental-health-worse-not-better-lawsuit/), and the amended complaint (https://techjusticelaw.org/wp-content/uploads/2025/12/FINAL-J.-Irwin-AMENDED-OpenAI-Complaint.pdf). Recheck case developments before presenting; this is an active, evolving case. Keep the tone cautionary, not alarmist — the point is to notice these two design patterns, not to claim chatbots cause delusions.</aside>
+</section>
+
+<section class="slide" data-source="new" data-topic="closing-caveat">
+<div class="tx" style="left:110px;top:310px;width:1380px;height:280px;justify-content:center;font:60pt/1.2 var(--head);color:var(--accent)"><p style="text-align:center">LLMs are powerful yet flawed tools.</p></div>
+<aside class="notes" hidden>Close the explanatory arc with a short, direct caveat. This single line can carry a spoken reminder of why: trained on an enormous amount of text, which is exactly why LLMs are fluent and broadly capable, and exactly why they can be confidently wrong — the compression analogy from the opening said a model keeps patterns but loses details. Keep it to a sentence or two spoken; the on-screen text is deliberately just the one line. This is the deck's final slide; move from here into the separate activity period.</aside>
+</section>
+
+</div>
+<script src="../deck/deck.js"></script>
+</body>
+</html>

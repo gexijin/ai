@@ -1,0 +1,54 @@
+/* Shared runtime for workshop slide decks: Steven's VCU style (navy, white Calibri). */
+:root {
+  --bg: #002060;
+  --fg: #ffffff;
+  --muted: #bfbfbf;
+  --accent: #ffc000;
+  --head: "Calibri Light", Calibri, Carlito, "Helvetica Neue", Arial, sans-serif;
+  --body: Calibri, Carlito, "Helvetica Neue", Arial, sans-serif;
+}
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+#deck { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; }
+.slide { position: absolute; inset: 0; background: var(--bg); color: var(--fg); display: none; overflow: hidden; font-family: var(--body); }
+.slide.active { display: block; }
+.slide::after { content: attr(data-num); position: absolute; right: 110px; bottom: 26px; font: 20px var(--body); color: var(--muted); }
+
+/* positioned elements produced by scripts/pptx-to-html.py */
+.tx { position: absolute; display: flex; flex-direction: column; padding: 6px 12px; box-sizing: border-box; }
+.tx p { margin: 0; }
+.tx p.bullet { padding-left: 0.9em; text-indent: -0.9em; margin-top: 0.36em; }
+.tx p.bullet::before { content: "•"; display: inline-block; width: 0.9em; text-indent: 0; }
+.pic { position: absolute; display: block; }
+.conn { position: absolute; inset: 0; width: 1600px; height: 900px; overflow: visible; pointer-events: none; }
+
+/* hand-built slides: one accent color, inline SVG drawings on the 1600x900 grid */
+.accent { color: var(--accent); }
+.step { visibility: hidden; }
+.step.shown { visibility: visible; }
+/* next-word prediction: context window, predicted word, words not yet generated */
+.ctx { background: rgba(255, 255, 255, 0.16); border-radius: 8px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.next { color: var(--accent); background: rgba(255, 192, 0, 0.16); border-radius: 8px; }
+.later { visibility: hidden; }
+.layer { background: var(--bg); }
+/* candidate next words with probabilities; deck.js aligns the panel under the .next word */
+.probs { position: absolute; top: 330px; left: 0; display: grid; grid-template-columns: auto auto auto auto; column-gap: 20px; row-gap: 8px; align-items: center; font-size: 26pt; line-height: 1.25; white-space: nowrap; }
+.probs .row { display: contents; }
+.probs .bar { height: 26px; background: rgba(255, 255, 255, 0.5); border-radius: 3px; }
+.probs .pct { color: var(--muted); }
+.probs .pick span, .probs .pick .pct { color: var(--accent); }
+.probs .pick .bar { background: var(--accent); }
+.probs .pick .why { font-size: 20pt; font-style: italic; color: var(--muted); padding-left: 10px; }
+.fig { position: absolute; inset: 0; width: 1600px; height: 900px; overflow: visible; }
+.fig text { font-family: var(--body); fill: var(--muted); }
+
+#deck-help { position: fixed; left: 10px; bottom: 8px; font: 13px var(--body); color: #777; opacity: 0; transition: opacity .3s; }
+body:hover #deck-help { opacity: 1; }
+
+@page { size: 1600px 900px; margin: 0; }
+@media print {
+  html, body { overflow: visible; height: auto; background: none; }
+  #deck { position: static; transform: none !important; }
+  .slide { position: relative; display: block !important; width: 1600px; height: 900px; break-after: page; }
+  #deck-help { display: none; }
+  .step { visibility: visible; }
+}
