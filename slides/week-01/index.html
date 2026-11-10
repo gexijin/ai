@@ -70,8 +70,9 @@ Between sessions: try something, then share a tip or discovery on the site to un
 <div class="tx practice-body" style="font-size:36pt">
 <p class="bullet">Coding camp: <a href="https://gexijin.github.io/camp/2026/" target="_blank" rel="noopener noreferrer" style="color:inherit" onclick="event.stopPropagation()">https://gexijin.github.io/camp/2026/</a></p>
 <p class="bullet">Claude: <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" style="color:inherit" onclick="event.stopPropagation()">Claude.ai</a></p>
-<p class="bullet">Activity: <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" style="color:inherit" onclick="event.stopPropagation()">Claude.ai</a>: Create an interactive 3D model to explain how a car engine works. Keep it simple.</p>
+<p class="bullet">Activity 1: <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" style="color:inherit" onclick="event.stopPropagation()">Claude.ai</a>: Build an interactive 3D model to explain how a car engine works. Keep it simple.</p>
 </div>
+<aside class="notes" hidden>Have participants log in to Claude.ai, start a new chat, and send the exact prompt on screen. The build may take up to 15 minutes. Ask everyone to leave the Claude tab open and return to the workshop while it runs. Continue the presentation once builds have started; revisit the models during sharing. If someone cannot log in or start a build, invite them to pair with a neighbor.</aside>
 </section>
 
 <!-- ============ Opening: a sobering case ============ -->
@@ -238,6 +239,20 @@ Low: the top words take almost everything; answers are predictable and repetitiv
 Analogy: a poet after a couple of beers knows the usual word but is more willing to pick a strange one: more creative, and also more erratic.
 Lower temperature is not more accurate: the most likely word is not necessarily true.
 Chat apps set temperature for you. Developer tools (OpenAI Playground, the API) let you change it for some models, but many newer reasoning models fix it and do not accept a different value. Numbers are the slide-10 probabilities at temperature 0.3, 1, and 2.</aside>
+</section>
+
+<section class="slide" data-source="new; illustrative token split and IDs; user-supplied strawberry.png" data-topic="tokens">
+<div class="tx practice-title"><p>Tokens are words or word parts</p></div>
+<div style="position:absolute;left:110px;top:385px;width:800px;display:grid;grid-template-columns:170px 340px 230px;gap:25px;text-align:center;font:54pt/1.2 var(--body)" role="img" aria-label="Illustrative split: un, believ, able. Example token IDs: 348, 7821, 512.">
+<div><span style="color:var(--accent)">un</span><p style="margin:30px 0 0;font-size:32pt;color:var(--muted)">348</p></div>
+<div><span style="color:#8fc9ff">believ</span><p style="margin:30px 0 0;font-size:32pt;color:var(--muted)">7821</p></div>
+<div><span style="color:#a9d18e">able</span><p style="margin:30px 0 0;font-size:32pt;color:var(--muted)">512</p></div>
+</div>
+<div class="tx" style="left:60px;top:680px;width:900px;height:100px;justify-content:center;font:44pt/1 var(--head);color:var(--muted);text-align:center;white-space:nowrap"><p>unbelievable = (348,7821,512)</p></div>
+<img class="pic step" style="left:1010px;top:230px;width:440px;height:650px;object-fit:contain" src="images/strawberry.png" alt="ChatGPT screenshot repeatedly miscounting the letter R in strawberry, answering two, then one, then two. The correct count is three.">
+<aside class="notes" hidden>The word unbelievable is split into un + believ + able as a teaching illustration. The three IDs (348, 7821, 512) are invented example identifiers, not the output of a particular tokenizer. Actual boundaries and IDs depend on the tokenizer. Each piece is represented by one token ID at the model's input; that ID selects a numerical vector. A token is one unit of input and prediction, which does not mean the model cannot learn its spelling. Tokens can also represent punctuation or include spaces.
+Ask participants to count the Rs in strawberry: three. The supplied screenshot illustrates a counting error; it does not identify the model or establish that tokenization alone caused that response. Connect this slide to the earlier next-word explanation: more precisely, the model predicts the next token.
+Source: OpenAI, Key concepts, https://developers.openai.com/api/docs/concepts#tokens . Token IDs: https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create .</aside>
 </section>
 
 <section class="slide" data-source="new; user-supplied gpt4o.png" data-topic="reasoning-models">
@@ -444,11 +459,18 @@ Cheng et al., “Sycophantic AI Decreases Prosocial Intentions and Promotes Depe
 
 <section class="slide" data-source="new; user-supplied Irwin v. OpenAI complaint scan" data-topic="warning-signs">
 <div class="tx practice-title"><p>LLMs want to keep you engaged</p></div>
-<img class="pic" style="left:495px;top:245px;width:610px;height:600px;object-fit:contain" src="images/Irwin.png" alt="First page of the filed complaint, Jacob Lee Irwin v. OpenAI, Inc. et al., Superior Court of California, County of San Francisco, Case No. CGC-25-630811.">
-<div class="tx" style="left:110px;top:800px;width:1380px;height:60px;justify-content:flex-start;font-size:18pt;font-family:var(--body);line-height:1.2;color:var(--muted)"><p>Irwin v. OpenAI, filed Nov. 6, 2025 — allegations in a lawsuit, not an established court finding.</p></div>
+<div class="tx" style="left:110px;top:300px;width:680px;height:450px;justify-content:center;font:44pt/1.3 var(--body)"><p>AI's flattery of<br>'physics theory'<br><span class="accent">→ Psychosis</span></p></div>
+<div class="tx" style="left:110px;top:810px;width:680px;height:60px;justify-content:center;font:24pt/1.2 var(--body);color:var(--muted)"><p>Irwin vs. OpenAI, 2025</p></div>
+<img class="pic" style="left:880px;top:245px;width:610px;height:600px;object-fit:contain" src="images/Irwin.png" alt="First page of the filed complaint, Jacob Lee Irwin v. OpenAI, Inc. et al., Superior Court of California, County of San Francisco, Case No. CGC-25-630811.">
 <aside class="notes" hidden>A second, distinct pattern from sycophancy: products can be designed to maximize engagement and time spent, independent of whether any one reply is sycophantic.
 Case, told briefly and respectfully: Jacob Irwin, a 30-year-old Wisconsin man who is autistic and had no prior serious mental health diagnosis, sued OpenAI in late 2025. He alleges ChatGPT reinforced a “time-bending”/faster-than-light-travel delusion, and was hospitalized more than 60 days for manic episodes. The complaint itself alleges OpenAI designed ChatGPT to be “addictive, deceptive, and sycophantic.” Mention autism only as a reported fact about the plaintiff, never as a cause — do not imply autism made him more susceptible.
 These are allegations in a filed lawsuit, not a court finding of responsibility. Sources: KXAN, “ChatGPT bot made man’s mental health worse, not better” (https://www.kxan.com/news/chatgpt-bot-made-mans-mental-health-worse-not-better-lawsuit/), and the amended complaint (https://techjusticelaw.org/wp-content/uploads/2025/12/FINAL-J.-Irwin-AMENDED-OpenAI-Complaint.pdf). Recheck case developments before presenting; this is an active, evolving case. Keep the tone cautionary, not alarmist — the point is to notice these two design patterns, not to claim chatbots cause delusions.</aside>
+</section>
+
+<section class="slide" data-source="new; user-supplied AI_war.png" data-topic="independent-verification" aria-label="Don't trust. Verify.">
+<div class="tx practice-title"><p>Don't trust. Verify.</p></div>
+<img class="pic" style="left:110px;top:245px;width:1380px;height:570px;object-fit:contain" src="images/AI_war.png" alt="Article screenshot with the headline: AI nearly had US troops attack a Chinese ship. Nobody could check its work.">
+<div class="tx" style="left:110px;top:830px;width:1380px;height:40px;justify-content:center;font:18pt/1.2 var(--body);color:var(--muted);text-align:center"><p>The Hill, 11/08/2026</p></div>
 </section>
 
 <section class="slide" data-source="new" data-topic="closing-caveat">
