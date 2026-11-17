@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 2: Google Gemini for Productivity</title>
+<link rel="stylesheet" href="../deck/deck.css">
+<style>
+.slide-title { left:110px; top:48px; width:1380px; height:174px; justify-content:center; font:48pt/1 var(--head); }
+.recap-col { top:250px; width:680px; height:600px; justify-content:flex-start; font:36pt/1.3 var(--body); }
+.recap-col h2 { margin:0 0 0.3em; font:44pt/1 var(--head); }
+.recap-do h2 { color:var(--accent); }
+.recap-dont h2 { color:var(--muted); }
+.prompt-part { left:1310px; width:203px; padding:8px 14px; border-radius:8px; font:34px/1.1 var(--body); }
+/* core concepts: columns of places / file locations */
+.cols { position:absolute; left:110px; top:270px; width:1380px; display:grid; gap:36px; }
+.cols > div { padding:28px 26px; border-radius:12px; background:rgba(255,255,255,0.08); font:28pt/1.3 var(--body); }
+.cols h3 { margin:0 0 0.4em; font:40pt/1.05 var(--head); color:var(--accent); }
+.cols p { margin:0; }
+.cols p + p { margin-top:0.5em; color:var(--muted); font-size:24pt; }
+.cols-foot { left:110px; top:770px; width:1380px; height:70px; justify-content:center; font:30pt/1.2 var(--body); color:var(--muted); text-align:center; }
+.cols p.prompt { margin-top:0.6em; color:#8ecbff; font-size:28pt; }
+.cols p.prod { margin:-0.2em 0 0.6em; color:var(--muted); font-size:24pt; }
+.cols p.reach { margin-top:0; color:var(--fg); font-size:28pt; }
+/* core features: name + one-line definition */
+.feat-list { position:absolute; left:110px; top:250px; width:1380px; display:grid; grid-template-columns:380px 1fr; gap:26px 40px; align-items:baseline; font:34pt/1.2 var(--body); }
+.feat-list dt { color:var(--accent); font-family:var(--head); }
+.feat-list dd { margin:0; }
+/* activity recap: Where / Try / Remember */
+.recap-title { left:110px; top:48px; width:1380px; height:190px; justify-content:center; font:46pt/1.05 var(--head); }
+.recap-rows { position:absolute; left:110px; top:300px; width:1380px; display:grid; grid-template-columns:240px 1fr; gap:60px 30px; align-items:baseline; font:40pt/1.25 var(--body); }
+.recap-rows dt { color:var(--muted); font-size:28pt; }
+.recap-rows dd { margin:0; }
+.recap-rows .prompt { color:#8ecbff; }
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- Title (same layout as the Session 1 title slide) -->
+<section class="slide" data-source="new; layout from week-01 title slide">
+<div class="tx" style="left:60px;top:40px;width:800px;height:60px;justify-content:flex-start;font-size:24pt;font-family:var(--body);line-height:1.0"><p style="text-align:left">Dr. G’s AI Study Group</p></div>
+<div class="tx" style="left:112.7px;top:148.6px;width:1332.3px;height:313.3px;justify-content:flex-end;font-size:60pt;font-family:var(--head);line-height:0.9"><p style="text-align:center">Google Gemini for Productivity</p></div>
+<div class="tx" style="left:368.5px;top:534.1px;width:863.0px;height:217.3px;justify-content:flex-start;font-size:24pt;font-family:var(--body);line-height:1.2"><p style="text-align:center">Xijin “Steven” Ge</p></div>
+</section>
+
+<!-- Recap of Session 1 -->
+<section class="slide" data-source="new" data-topic="session-1-recap">
+<div class="tx slide-title"><p>Session 1 recap</p></div>
+<div class="tx recap-col recap-do" style="left:110px">
+<h2>Do</h2>
+<p class="bullet">Be specific</p>
+<p class="bullet">Plan → produce → review</p>
+<p class="bullet">Start small, iterate</p>
+<p class="bullet">Edit, branch, regenerate</p>
+<p class="bullet">Push back!!!</p>
+</div>
+<div class="tx recap-col recap-dont" style="left:830px">
+<h2>Don’t</h2>
+<p class="bullet">Pile it all into one chat</p>
+<p class="bullet">Blindly trust</p>
+</div>
+<aside class="notes" hidden>Quick recap of Session 1, under a minute. Do: be specific; plan, then produce, then review; start small and iterate; push back when an answer looks wrong; edit, branch, or regenerate instead of arguing in a long thread. Don't: keep one chat going on and on (keep chats short and focused; start a new one); blindly trust its recommendations (verify).</aside>
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 21; same as week-01 deck">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px" src="images/vcu-s21.png" alt="Five panels: Context, Limited Context, Noise, and two Graph search trees labeled Regenerate and Edit prompt.">
+<aside class="notes" hidden>Visual reminder of the recap. Each turn adds to the context, the model may only see part of a long chat, and mistakes stay in as noise, so don't pile it all into one chat. Regenerate and edit prompt branch away from a bad turn instead of arguing with it.</aside>
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 11; original title and labels covered" data-topic="dynamic-prompts" aria-label="Dynamically construct prompts">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px" src="images/vcu-s11.png" alt="A prompt built from three color-coded parts: an instruction to write correct, efficient R code; the user's question, show me the distribution of charges; and a description of the df data frame's numeric and categorical variables.">
+<div class="tx layer" style="left:0px;top:0px;width:1600px;height:180px;justify-content:center;font:56pt/1 var(--head)"><p style="text-align:center">Dynamically construct prompts</p></div>
+<div class="layer" style="position:absolute;left:1280px;top:195px;width:320px;height:430px"></div>
+<div class="tx prompt-part" style="top:188px;background:#00ffff;color:#002060"><p>General<br>instruction</p></div>
+<div class="tx prompt-part" style="top:294px;background:#008000;color:#fff"><p>User<br>question</p></div>
+<div class="tx prompt-part" style="top:470px;background:#00ff00;color:#002060"><p>Data<br>description</p></div>
+<aside class="notes" hidden>Answer to the question on slide 3: what if a program managed the context for us? A program can build the prompt for you. The user only typed the question (dark green). The app adds a fixed instruction (cyan) and writes a description of the uploaded data (bright green) from the data itself. The prompt is assembled by a program each time, so the context is always focused and complete. Next slide: how an app like RTutor uses this.</aside>
+</section>
+
+<section class="slide" data-source="new; user-supplied RTutor.png" data-topic="apps-loop-llm" aria-label="AI apps use LLMs programmatically">
+<div class="tx slide-title"><p>AI apps use LLMs programmatically</p></div>
+<img class="pic" style="left:410px;top:235px;width:780px;height:621px;object-fit:contain" src="images/RTutor.png" alt="RTutor diagram: a user’s data and question go into prompt preparation, ChatGPT returns R or Python code, the app executes it, and the code, results, and errors go back to the user.">
+<aside class="notes" hidden>AI apps take this further. Example: RTutor. You give it data and a question; the app prepares the prompt (previous slide), ChatGPT returns R or Python code, the app runs that code and shows you the code, results, and any errors. Every request is a fresh, focused call. Bigger apps do this many times: plan, execute, review, the same loop as on the recap slide, but the app runs it for you. It looks like magic, but underneath it is ordinary LLM calls. Example for today: Deep Research shows a plan, reads many websites, then writes and checks a report.</aside>
+</section>
+
+<section class="slide" data-source="new; user-supplied RTutor_screen1.png" data-topic="rtutor-demo" aria-label="RTutor screenshot">
+<!-- Crop to the app area (1046x752 of 1283x963), hiding the blank margin and scrollbars. -->
+<div class="pic" style="left:209px;top:25px;width:1182px;height:850px;overflow:hidden;border-radius:12px;background:#fff">
+<img style="display:block;width:1450px;height:1088px" src="images/RTutor_screen1.png" alt="RTutor app: the request 'Use ggplot2 to create a boxplot of highway vs. type. Color by type. Add jitter points.' produces AI-generated R code and the resulting colored boxplot of highway mileage by car type.">
+</div>
+<aside class="notes" hidden>RTutor in action. The user picks a dataset and types a plain-English request. Behind the scenes the app builds the full prompt, sends it to the LLM, gets R code back, runs it, and shows both the code and the plot. One request, about 2 seconds, a fraction of a cent. This is what looks like magic.</aside>
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 12">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px" src="images/vcu-s12.png" alt="LinkedIn post from Dec. 17, 2022 announcing RTutor.ai, an app that generates and tests R code by chatting, with 8,746 reactions, 361 comments, 797 reposts, and 974,757 impressions.">
+<aside class="notes" hidden>December 17, 2022, about two weeks after ChatGPT launched. I posted RTutor on LinkedIn as a Christmas present. It reached nearly a million impressions.</aside>
+</section>
+
+<section class="slide" data-source="VCU_slides.pptx slide 13">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px" src="images/vcu-s13.png" alt="Reactions: Wait … What? Wow! So cool! Can I buy you coffee? We are all doomed! Nah, not reliable. Great as a startup!">
+<aside class="notes" hidden>The range of reactions to RTutor, from amazement to doom to skepticism. The same reactions people have to AI apps today.</aside>
+</section>
+
+<section class="slide" data-source="new; user-supplied Magician.webp" data-topic="magic" aria-label="Magician">
+<img class="pic" style="left:0px;top:0px;width:1600px;height:900px;object-fit:cover;object-position:50% 5%" src="images/Magician.webp" alt="A magician in a top hat passes a hoop around a smiling woman who appears to float horizontally in mid-air on a stage with red curtains.">
+<div class="tx" style="left:24px;top:842px;height:40px;justify-content:center;font:16pt/1.2 var(--body);color:#fff;background:rgba(0,0,0,0.5);border-radius:6px"><p>Image: <a href="https://brainworldmagazine.com/how-magicians-use-illusions-to-fool-your-brain/" target="_blank" rel="noopener noreferrer" style="color:inherit" onclick="event.stopPropagation()">Brain World Magazine</a></p></div>
+<aside class="notes" hidden>It looks like magic, but there is a trick behind it. AI apps are the same: underneath is a program calling an LLM over and over. Image credit: Brain World Magazine, https://brainworldmagazine.com/how-magicians-use-illusions-to-fool-your-brain/</aside>
+</section>
+
+<!-- ============ Gemini core concepts ============ -->
+
+<section class="slide" data-source="new" data-topic="gemini-places" aria-label="One Gemini, many places">
+<div class="tx slide-title"><p>One Gemini, many places</p></div>
+<div class="cols" style="grid-template-columns:repeat(4,1fr)">
+<div><h3>Web</h3><p>gemini.google.com</p></div>
+<div><h3>Chrome</h3><p>Ask about any page or video</p><p>Ask Gemini, YouTube Ask</p></div>
+<div><h3>Phone</h3><p>Talk, show, and share your screen</p><p>Gemini Live</p></div>
+<div><h3>Desktop</h3><p>An agent works on your files</p><p>Gemini for Desktop, Antigravity</p></div>
+</div>
+<div class="tx cols-foot"><p>Your chats follow you.</p></div>
+<aside class="notes" hidden>Gemini is not one website. The same assistant shows up in four places. Web: gemini.google.com, where most of today's activities happen. Chrome and YouTube: the Ask Gemini button works on the page or video you are looking at (Activity 1). Phone: the Gemini app and Gemini Live, for talking, pointing the camera, and sharing your screen. Desktop: Gemini for Desktop, whose Task mode lets an agent read and create files in a folder you choose (Activity 10). Antigravity is Google's coding agent; I demo it from Gemini for Desktop (paid plan) and as a separate free Antigravity IDE app in Activity 10. Sign in with the same Google account everywhere; chats from the web show up on your phone.</aside>
+</section>
+
+<section class="slide" data-source="new" data-topic="gemini-files" aria-label="Where your files are">
+<div class="tx slide-title"><p>Where your files are</p></div>
+<div class="cols" style="grid-template-columns:repeat(3,1fr)">
+<div><h3>Web</h3><p>Upload to a chat or a Notebook</p></div>
+<div><h3>Google Drive</h3><p>Attach a folder or type @Google Drive</p></div>
+<div><h3>Laptop</h3><p>Gemini for Desktop, Task mode</p></div>
+</div>
+<aside class="notes" hidden>Gemini can only use files it can reach, and where the files live decides which feature to use. Web (cloud): upload a file to a chat or add sources to a Notebook; the copy lives in Google's cloud (baby food CSV in Activity 5, long COVID papers in Activity 7). Google Drive: files already in Drive can be attached or reached with @Google Drive, and Gemini can save new files back to Drive (receipts demo, Activity 3). Laptop: files on your own computer stay there; Gemini for Desktop in Task mode can read and change files only in the folder you attach (Activity 10). Keep that folder free of anything you don't want it to touch.</aside>
+</section>
+
+<section class="slide" data-source="new" data-topic="chat-task-agent" aria-label="Same AI, more reach">
+<div class="tx slide-title"><p>Same AI, more reach</p></div>
+<div class="cols" style="grid-template-columns:repeat(3,1fr)">
+<div><h3>Chat</h3><p class="prod">Gemini web</p><p class="reach">The conversation</p><p class="prompt">“Summarize it.”</p></div>
+<div><h3>Task</h3><p class="prod">Gemini for Desktop</p><p class="reach">+ your files</p><p class="prompt">“Create a dashboard.”</p></div>
+<div><h3>Coding agent</h3><p class="prod">Antigravity</p><p class="reach">+ code it runs</p><p class="prompt">“Build a website.”</p></div>
+</div>
+<aside class="notes" hidden>The big picture: it is the same LLM in all three (Gemini web, Gemini for Desktop, Antigravity). What changes is how far it can reach and who runs the loop. Chat: it sees only the conversation and gives one reply at a time; you are the loop: you read, copy, paste, and ask again (Activity 1, summarize a video). Task: Gemini for Desktop can also reach the files in a folder you attach; it plans, takes many steps, and saves results there, while you approve and check (Activity 10, dashboard). Coding agent: Antigravity can also write and run its own code, so it can build tools and software, not just documents; you describe what you want and test the result, for example building a website. This is the RTutor loop from earlier: plan, act, check, repeat, but now the AI drives it. More reach means more care: chat cannot change your files, a Task agent changes files in the folder you choose, and a coding agent can also run commands on your computer. The lines blur: Deep Research runs a multi-step loop inside chat, and a Task agent may quietly write code. Series arc: Session 1 was chat, today adds agents, next session is coding agents with Claude.</aside>
+</section>
+
+<section class="slide" data-source="new" data-topic="gemini-features" aria-label="Core features">
+<div class="tx slide-title"><p>Core features</p></div>
+<dl class="feat-list">
+<dt>Connectors</dt><dd>Link Gmail, Calendar, Drive, Canva</dd>
+<dt>Scheduled actions</dt><dd>Tasks that run later or repeat</dd>
+<dt>Canvas</dt><dd>A document or app beside the chat</dd>
+<dt>Notebooks</dt><dd>Files and chats together in one project</dd>
+<dt>Gemini Notebook</dt><dd>Mind maps, flashcards, audio from sources</dd>
+<dt>Skills</dt><dd>Saved instructions; call them with @</dd>
+</dl>
+<aside class="notes" hidden>The six features we will try today. Connectors give Gemini access to your other apps (Activity 2, 3). Scheduled actions run a prompt later or on a repeat, such as a weekly briefing (Activity 2). Canvas opens a document, slides, quiz, or small app beside the chat that you can edit (Activity 4). Notebooks keep your files and related chats together, so answers are grounded in your sources (Activity 7). Gemini Notebook, formerly NotebookLM, turns those sources into mind maps, flashcards, and podcast-style audio overviews (Activity 8). Skills are saved instructions you can reuse by typing @ and the name (Activity 9). Each one is a way of putting the right context into the prompt, as in the RTutor example.</aside>
+</section>
+
+<section class="slide" data-source="new; user-supplied gemini_ui.png" data-topic="gemini-ui" aria-label="Gemini web interface">
+<img class="pic" style="left:78px;top:0px;width:1444px;height:900px" src="images/gemini_ui.png" alt="Gemini at gemini.google.com: left sidebar with New chat, Library, Images, Scheduled, Daily brief, More, a Notebooks section with New notebook, and recent chats; main area asks Where should we start? above an Ask Gemini box with a + button, model picker set to Gemini Auto, and a microphone.">
+<aside class="notes" hidden>Tour of the web interface. Left sidebar: New chat; Library; Images; Scheduled, where scheduled actions live; Notebooks, with New notebook; then recent chats. The settings gear at the bottom left and Customize (under More, depending on the layout) lead to Connectors and Skills. Main area: the Ask Gemini box. The + button attaches files, Drive, and tools such as Canvas and Deep Research. The model picker (Gemini Auto) and the microphone are on the right. Check that the labels match the live site before presenting.</aside>
+</section>
+
+<!-- ============ Summary: one slide per activity (optional activities skipped) ============ -->
+
+<section class="slide" data-source="new; matches week-01 section divider" data-topic="what-we-tried">
+<div class="tx" style="left:110px;top:224px;width:1380px;height:374px;justify-content:flex-end;font:60pt/0.9 var(--head)"><p style="text-align:center">What we tried</p></div>
+<aside class="notes" hidden>Summary of today's activities, one slide each. Use these to recap at the end, or to point back to a feature during discussion.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-02/01-chrome-youtube.md" data-topic="recap-chrome">
+<div class="tx recap-title"><p>1. <span class="accent">Gemini in Chrome and YouTube</span>: ask about any page or video</p></div>
+<dl class="recap-rows">
+<dt>Where</dt><dd>Ask Gemini · Ask on YouTube</dd>
+<dt>Try</dt><dd class="prompt">“Summarize it.”</dd>
+</dl>
+<aside class="notes" hidden>Activity 1. Gemini in Chrome answers questions about the page you are on, such as where to find breast cancer genes on NCBI. On YouTube, Ask summarizes a video without watching all of it. Check: did its directions lead to the right place?</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-02/02-connected-apps.md" data-topic="recap-connectors">
+<div class="tx recap-title"><p>2. <span class="accent">Connected apps</span>: check your calendar, send email, schedule tasks</p></div>
+<dl class="recap-rows">
+<dt>Where</dt><dd>Customize → Connectors</dd>
+<dt>Try</dt><dd class="prompt">“What’s on my schedule this week?”</dd>
+</dl>
+<aside class="notes" hidden>Activity 2. Connectors let Gemini read your calendar and email, send messages, and build a Google Sheet from your purchase emails. Scheduled actions run later or repeat, like a birthday email or a weekly briefing. Review any draft before you confirm, and spot-check spreadsheet rows against the original emails. Scheduled tasks can be viewed and stopped under Scheduled > Active.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-02/03-drive-receipts.md" data-topic="recap-drive">
+<div class="tx recap-title"><p>3. <span class="accent">Google Drive</span>: turn receipts into a spreadsheet</p></div>
+<dl class="recap-rows">
+<dt>Where</dt><dd>@Google Drive</dd>
+<dt>Try</dt><dd class="prompt">“Compile my receipts for this trip.”</dd>
+</dl>
+<aside class="notes" hidden>Activity 3 (demo). Gemini read a folder of trip receipts in Drive, compiled them, and saved an Excel file back to the same folder. Asking it to double-check may or may not catch mistakes; compare a few dates, amounts, and vendors with the originals.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-02/04-canvas.md" data-topic="recap-canvas">
+<div class="tx recap-title"><p>4. <span class="accent">Canvas</span>: draft, edit, and convert documents</p></div>
+<dl class="recap-rows">
+<dt>Where</dt><dd>Tools menu → Canvas</dd>
+<dt>Try</dt><dd class="prompt">“Make it into slides.”</dd>
+</dl>
+<aside class="notes" hidden>Activity 4. Canvas puts a document beside the chat. You and Gemini both edit it; Undo brings back the previous version. One draft can become a cheat sheet, slides, or a quiz. Correct outdated facts yourself, such as Gems now being called Skills.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-02/07-notebooks.md" data-topic="recap-notebooks">
+<div class="tx recap-title"><p>7. <span class="accent">Notebooks</span>: keep files and chats together in one project</p></div>
+<dl class="recap-rows">
+<dt>Where</dt><dd>New notebook → Add sources</dd>
+<dt>Try</dt><dd class="prompt">“What is long COVID?”</dd>
+</dl>
+<aside class="notes" hidden>Activity 7. A Notebook holds files (three long COVID papers and a CDC page) and every chat you start inside it. Answers are grounded in those sources, and you can start a fresh, focused chat without re-uploading anything. Canvas works inside a Notebook too, for the infographic.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-02/08-gemini-notebook.md" data-topic="recap-gemini-notebook">
+<div class="tx recap-title"><p>8. <span class="accent">Gemini Notebook</span>: mind maps, flashcards, and audio overviews</p></div>
+<dl class="recap-rows">
+<dt>Where</dt><dd>Your Notebook → Gemini Notebook</dd>
+<dt>Try</dt><dd>Mind map · Flashcards · Audio overview</dd>
+</dl>
+<aside class="notes" hidden>Activity 8. Gemini Notebook, formerly NotebookLM, turns the sources in your Notebook into study tools: a mind map to explore, flashcards to test yourself, and a podcast-style audio overview. Also quizzes, infographics, slide decks, and video overviews. My podcast AI Frontiers in Plain English is made with audio overviews.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-02/09-skills.md" data-topic="recap-skills">
+<div class="tx recap-title"><p>9. <span class="accent">Skills</span>: save and reuse your best prompts</p></div>
+<dl class="recap-rows">
+<dt>Where</dt><dd>Customize → Skills</dd>
+<dt>Try</dt><dd class="prompt">“@generate-fresh-ideas Get rich quick.”</dd>
+</dl>
+<aside class="notes" hidden>Activity 9. A Skill is a saved set of instructions you call with @ and its name. Install one (generate-fresh-ideas) or ask Gemini to create one from a description (first-principles-solver). Turn a prompt you use often into a Skill.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-02/10-gemini-desktop.md" data-topic="recap-desktop">
+<div class="tx recap-title"><p>10. <span class="accent">Gemini for Desktop</span>: let an agent work on your laptop</p></div>
+<dl class="recap-rows">
+<dt>Where</dt><dd>Task → attach a folder</dd>
+<dt>Try</dt><dd class="prompt">“Create a dashboard.”</dd>
+</dl>
+<aside class="notes" hidden>Activity 10. In Task mode, Gemini for Desktop works as an agent: it reads the files in the folder you attach, plans steps, and writes new files, such as a dashboard from the baby food data. Watch the steps and read each permission request before approving. Coding agents (Antigravity) go further; that is where the series is heading.</aside>
+</section>
+
+<section class="slide" data-source="new; optional activities 6, 11, 12, 13" data-topic="more-to-try" aria-label="More to try">
+<div class="tx slide-title"><p>More to try</p></div>
+<dl class="feat-list" style="grid-template-columns:470px 1fr">
+<dt>Canva</dt><dd>Design with Canva through a connector</dd>
+<dt>Deep Research</dt><dd>A cited report from many sources</dd>
+<dt>Gemini on your phone</dt><dd>Talk, show your camera, share your screen</dd>
+<dt>Images</dt><dd>Create and edit pictures</dd>
+<dt>Custom connectors</dt><dd>Link other apps and tools via MCP</dd>
+</dl>
+<aside class="notes" hidden>Optional activities to try on your own; each has step-by-step instructions on the site. Canva (Activity 6): connect Canva and let Gemini start a design you finish in Canva. Deep Research (Activity 11): Gemini proposes a plan, reads many websites, and writes a cited report in 5 to 15 minutes; review the plan and click the citations. Free accounts get only a few reports. Gemini on your phone (Activity 12): Gemini Live lets you talk, point the camera at something, or share your screen. Images (Activity 13): create a poster and edit your own photos with plain-language requests. Custom connectors: beyond the built-in connectors, you can add your own through MCP, the Model Context Protocol, a common standard for plugging AI into other apps and data. Setup is more technical, and only connect services you trust, since a connector can read and act on your data. Check the current Gemini settings and plan requirements before presenting.</aside>
+</section>
+<section class="slide" data-source="new; user-supplied canva.png" data-topic="canva-card" aria-label="Business card made with Canva">
+<img class="pic" style="left:12px;top:0px;width:1575px;height:900px" src="images/canva.png" alt="Business card for John Doe's Elixirs: an engraved snake oil bottle in a round frame beside the lines Finest in SD and For all Ailments, in cream on dark brown.">
+<aside class="notes" hidden>A business card for John Doe, who sells snake oil, made with Gemini and the Canva connector (Activity 6). Gemini started the design and Canva finished it. A light ending: these tools are powerful, so keep checking what they make. The fine print on the bottle label is AI-generated gibberish, a reminder to check text in AI images.</aside>
+</section>
+</div>
+<script src="../deck/deck.js"></script>
+</body>
+</html>
