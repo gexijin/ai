@@ -32,6 +32,12 @@
 .recap-rows dt { color:var(--muted); font-size:28pt; }
 .recap-rows dd { margin:0; }
 .recap-rows .prompt { color:#8ecbff; }
+/* Gemini services table */
+.svc { position:absolute; left:110px; top:215px; width:1380px; border-collapse:collapse; font:24pt/1.2 var(--body); }
+.svc th { padding:0 18px 10px; text-align:left; font:22pt/1 var(--body); color:var(--muted); border-bottom:2px solid rgba(255,255,255,0.25); }
+.svc td { padding:16px 18px; white-space:nowrap; vertical-align:baseline; border-bottom:1px solid rgba(255,255,255,0.1); }
+.svc td:first-child { width:360px; color:var(--accent); font-family:var(--head); }
+.svc td:nth-child(2) { width:310px; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -111,7 +117,7 @@
 <!-- ============ Gemini core concepts ============ -->
 
 <section class="slide" data-source="new" data-topic="gemini-places" aria-label="One Gemini, many places">
-<div class="tx slide-title"><p>One Gemini, many places</p></div>
+<div class="tx slide-title"><p>Use Gemini on the web, phone, or laptop</p></div>
 <div class="cols" style="grid-template-columns:repeat(4,1fr)">
 <div><h3>Web</h3><p>gemini.google.com</p></div>
 <div><h3>Chrome</h3><p>Ask about any page or video</p><p>Ask Gemini, YouTube Ask</p></div>
@@ -122,8 +128,65 @@
 <aside class="notes" hidden>Gemini is not one website. The same assistant shows up in four places. Web: gemini.google.com, where most of today's activities happen. Chrome and YouTube: the Ask Gemini button works on the page or video you are looking at (Activity 1). Phone: the Gemini app and Gemini Live, for talking, pointing the camera, and sharing your screen. Desktop: Gemini for Desktop, whose Task mode lets an agent read and create files in a folder you choose (Activity 10). Antigravity is Google's coding agent; I demo it from Gemini for Desktop (paid plan) and as a separate free Antigravity IDE app in Activity 10. Sign in with the same Google account everywhere; chats from the web show up on your phone.</aside>
 </section>
 
+<section class="slide" data-source="new; user-supplied table" data-topic="gemini-services" aria-label="The Gemini family">
+<div class="tx slide-title" style="height:150px"><p>Gemini gives you many AI tools</p></div>
+<table class="svc">
+<thead><tr><th>Product</th><th>What it is</th><th>Use</th></tr></thead>
+<tbody>
+<tr><td>Gemini LLM</td><td>Multimodal chatbot</td><td>Questions, writing, coding, reasoning</td></tr>
+<tr><td>Nano Banana</td><td>Image generator</td><td>Create and edit images from text</td></tr>
+<tr><td>Gemini Omni</td><td>Video generator</td><td>Short videos from text, images, audio</td></tr>
+<tr><td>Gemini Notebook</td><td>Research workspace</td><td>Chat with your PDFs, notes, and links</td></tr>
+<tr><td>Connectors</td><td>Data connector</td><td>Link Gmail, Drive, Calendar, Canva…</td></tr>
+<tr><td>Google Antigravity</td><td>Coding agent</td><td>Agents that write code and build apps</td></tr>
+</tbody>
+</table>
+<aside class="notes" hidden>The Gemini name covers a family of products. Each one is a distinct service you can reach from the Gemini website or the Gemini for Desktop app. The Gemini LLM (Pro and Flash models) is a multimodal chatbot: it reads text, images, audio, and files and helps with questions, writing, coding, and reasoning; pick a model with the model picker. Nano Banana is the image generator: it creates detailed images and edits photos from text descriptions (Activity 13). Gemini Omni is the video generator: it creates short clips (about 3 to 10 seconds) from text, images, audio, and video. Gemini Notebook, formerly NotebookLM, is the research workspace: upload PDFs, notes, or URLs to summarize and chat with your specific documents (Activity 8). Connectors, formerly called extensions and now Connected Apps, let Gemini search and read your Gmail, Drive, Docs, and Calendar, plus apps such as Canva and Dropbox; find them under Customize, then Connectors (Activities 2 and 3). Google Antigravity is a separate AI coding app, powered by Gemini, where agents write code, manage local files, and build software; reach it from Gemini for Desktop on a paid plan or install the free app (Activity 10).</aside>
+</section>
+
+<section class="slide" data-source="new; 9to5Google Nov 2026 and Gemini app picker" data-topic="gemini-models" aria-label="Gemini models: a speed dial from Flash-Lite to Carbon, each with Low, Medium, and High thinking levels">
+<div class="tx slide-title" style="height:150px"><p>Match the model and thinking level to the task</p></div>
+<svg class="fig" viewBox="0 0 1600 900" aria-hidden="true">
+<path d="M534.0 775.4 A266 266 0 0 1 608.7 595.2 L656.1 641.1 A200 200 0 0 0 600.0 776.5 Z" fill="#4fc3f7" fill-opacity="0.4"/>
+<path d="M462.1 774.1 A338 338 0 0 1 556.9 545.2 L604.3 591.1 A272 272 0 0 0 528.0 775.3 Z" fill="#4fc3f7" fill-opacity="0.7"/>
+<path d="M390.1 772.8 A410 410 0 0 1 505.1 495.2 L552.5 541.0 A344 344 0 0 0 456.1 774.0 Z" fill="#4fc3f7" fill-opacity="1.0"/>
+<text x="384" y="598" text-anchor="end" style="font:44px var(--head);fill:#4fc3f7">Flash-Lite</text>
+<text x="384" y="634" text-anchor="end" style="font:28px var(--body)">Quick answers</text>
+<path d="M615.2 588.7 A266 266 0 0 1 795.4 514.0 L796.5 580.0 A200 200 0 0 0 661.1 636.1 Z" fill="#66d17a" fill-opacity="0.4"/>
+<path d="M565.2 536.9 A338 338 0 0 1 794.1 442.1 L795.3 508.0 A272 272 0 0 0 611.1 584.3 Z" fill="#66d17a" fill-opacity="0.7"/>
+<path d="M515.2 485.1 A410 410 0 0 1 792.8 370.1 L794.0 436.1 A344 344 0 0 0 561.0 532.5 Z" fill="#66d17a" fill-opacity="1.0"/>
+<text x="628" y="334" text-anchor="middle" style="font:44px var(--head);fill:#66d17a">Hydrogen</text>
+<text x="628" y="370" text-anchor="middle" style="font:28px var(--body)">Everyday work</text>
+<path d="M804.6 514.0 A266 266 0 0 1 984.8 588.7 L938.9 636.1 A200 200 0 0 0 803.5 580.0 Z" fill="#ffc000" fill-opacity="0.4"/>
+<path d="M805.9 442.1 A338 338 0 0 1 1034.8 536.9 L988.9 584.3 A272 272 0 0 0 804.7 508.0 Z" fill="#ffc000" fill-opacity="0.7"/>
+<path d="M807.2 370.1 A410 410 0 0 1 1084.8 485.1 L1039.0 532.5 A344 344 0 0 0 806.0 436.1 Z" fill="#ffc000" fill-opacity="1.0"/>
+<text x="972" y="334" text-anchor="middle" style="font:44px var(--head);fill:#ffc000">Argon</text>
+<text x="972" y="370" text-anchor="middle" style="font:28px var(--body)">Code &amp; analysis</text>
+<path d="M991.3 595.2 A266 266 0 0 1 1066.0 775.4 L1000.0 776.5 A200 200 0 0 0 943.9 641.1 Z" fill="#ff6b6b" fill-opacity="0.4"/>
+<path d="M1043.1 545.2 A338 338 0 0 1 1137.9 774.1 L1072.0 775.3 A272 272 0 0 0 995.7 591.1 Z" fill="#ff6b6b" fill-opacity="0.7"/>
+<path d="M1094.9 495.2 A410 410 0 0 1 1209.9 772.8 L1143.9 774.0 A344 344 0 0 0 1047.5 541.0 Z" fill="#ff6b6b" fill-opacity="1.0"/>
+<text x="1216" y="598" text-anchor="start" style="font:44px var(--head);fill:#ff6b6b">Carbon</text>
+<text x="1216" y="634" text-anchor="start" style="font:28px var(--body)">Most complex work</text>
+<text x="567" y="812" text-anchor="middle" style="font:20px var(--body)">Low</text>
+<text x="1033" y="812" text-anchor="middle" style="font:20px var(--body)">Low</text>
+<text x="495" y="812" text-anchor="middle" style="font:20px var(--body)">Medium</text>
+<text x="1105" y="812" text-anchor="middle" style="font:20px var(--body)">Medium</text>
+<text x="423" y="812" text-anchor="middle" style="font:20px var(--body)">High</text>
+<text x="1177" y="812" text-anchor="middle" style="font:20px var(--body)">High</text>
+<line x1="800" y1="780" x2="734.9" y2="622.9" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+<circle cx="800" cy="780" r="20" fill="#fff"/>
+</svg>
+<aside class="notes" hidden>The Gemini app offers a ladder of models, from light and fast to slow and powerful. Flash-Lite handles quick questions and is free. Hydrogen, released November 12, is the everyday model for writing, coding, and agent tasks; it needs AI Plus or higher, though free users get it when Auto chooses it. Argon, labeled Code and analysis in the picker, comes with AI Pro and Ultra. Carbon, labeled Most complex work, is Google's most powerful model and is Ultra only. Most of you are on a free account, so leave the picker on Auto and Gemini chooses between Flash-Lite and Hydrogen for each prompt. Bigger models are slower and cost more, so you rarely need the top step. Each model also has three thinking levels, Low, Medium, and High, shown as the three rings of the dial, dim to bright: higher thinking means a slower but more careful answer, so raise it before switching to a bigger model. Check the picker before presenting: model names and plans changed several times in 2026.</aside>
+</section>
+
+<section class="slide" data-source="new; user-supplied gemini_benchmark.webp (Google DeepMind)" data-topic="gemini-benchmark" aria-label="Gemini 4 Carbon benchmarks">
+<div class="tx" style="left:110px;top:48px;width:400px;height:420px;justify-content:center;font:44pt/1.1 var(--head)"><p>Gemini is better than ChatGPT and Claude?</p></div>
+<img class="pic" style="left:540px;top:24px;width:950px;height:799px;border-radius:8px" src="images/gemini_benchmark.webp" alt="Google DeepMind benchmark table comparing Gemini 4 Carbon, Gemini 4 Argon, GPT-6 Astra, Claude Opus 5.5, and Claude Fable 5.1 on 17 tests in general capabilities, agentic coding, computer use, knowledge work, multimodal understanding, long context, science and math, and cybersecurity. Gemini 4 Carbon is highlighted and scores highest on most rows; GPT-6 Astra leads FrontierSWE 2 and Claude Opus 5.5 leads OSWorld-2.1.">
+<aside class="notes" hidden>This is Google DeepMind's own benchmark table for Gemini 4 Carbon, released November 2026. Carbon scores highest on most rows, but not all: GPT-6 Astra (OpenAI, behind ChatGPT) leads FrontierSWE 2, and Claude Opus 5.5 leads OSWorld-2.1, a computer-use test. The question mark in the title is deliberate. Each company publishes the tests where its model looks good, many gaps are only a few points, and the rankings change every few months. Carbon is also only on the AI Ultra plan. What matters most is how a model does on your own tasks, so try the same prompt in two assistants and compare. Methodology: deepmind.google/models/evals-methodology/gemini-4-carbon</aside>
+</section>
+
 <section class="slide" data-source="new" data-topic="gemini-files" aria-label="Where your files are">
-<div class="tx slide-title"><p>Where your files are</p></div>
+<div class="tx slide-title"><p>Work with files on the web, Drive, or laptop</p></div>
 <div class="cols" style="grid-template-columns:repeat(3,1fr)">
 <div><h3>Web</h3><p>Upload to a chat or a Notebook</p></div>
 <div><h3>Google Drive</h3><p>Attach a folder or type @Google Drive</p></div>
@@ -133,7 +196,7 @@
 </section>
 
 <section class="slide" data-source="new" data-topic="chat-task-agent" aria-label="Same AI, more reach">
-<div class="tx slide-title"><p>Same AI, more reach</p></div>
+<div class="tx slide-title"><p>From chat to agent: more autonomy, more risk</p></div>
 <div class="cols" style="grid-template-columns:repeat(3,1fr)">
 <div><h3>Chat</h3><p class="prod">Gemini web</p><p class="reach">The conversation</p><p class="prompt">“Summarize it.”</p></div>
 <div><h3>Task</h3><p class="prod">Gemini for Desktop</p><p class="reach">+ your files</p><p class="prompt">“Create a dashboard.”</p></div>
@@ -143,7 +206,7 @@
 </section>
 
 <section class="slide" data-source="new" data-topic="gemini-features" aria-label="Core features">
-<div class="tx slide-title"><p>Core features</p></div>
+<div class="tx slide-title"><p>Six features that save you time</p></div>
 <dl class="feat-list">
 <dt>Connectors</dt><dd>Link Gmail, Calendar, Drive, Canva</dd>
 <dt>Scheduled actions</dt><dd>Tasks that run later or repeat</dd>
