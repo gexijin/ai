@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 3: AI Agents</title>
+<link rel="stylesheet" href="../deck/deck.css">
+<style>
+/* Shared layouts, same as the Session 2 deck. */
+.slide-title { left:110px; top:48px; width:1380px; height:174px; justify-content:center; font:48pt/1 var(--head); }
+.body-list { left:110px; top:260px; width:1380px; height:570px; justify-content:flex-start; font:40pt/1.3 var(--body); }
+.body-list p + p { margin-top:0.45em; }
+.body-list code, .recap-rows code { font:0.85em Menlo,Consolas,monospace; color:#8ecbff; }
+/* columns of places / concepts */
+.cols { position:absolute; left:110px; top:270px; width:1380px; display:grid; gap:36px; }
+.cols > div { padding:28px 26px; border-radius:12px; background:rgba(255,255,255,0.08); font:28pt/1.3 var(--body); }
+.cols h3 { margin:0 0 0.4em; font:40pt/1.05 var(--head); color:var(--accent); }
+.cols p { margin:0; }
+.cols p + p { margin-top:0.5em; color:var(--muted); font-size:24pt; }
+.cols p.prompt { margin-top:0.6em; color:#8ecbff; font-size:28pt; }
+.cols p.prod { margin:-0.2em 0 0.6em; color:var(--muted); font-size:24pt; }
+.cols p.reach { margin-top:0; color:var(--fg); font-size:28pt; }
+.cols-foot { left:110px; top:770px; width:1380px; height:70px; justify-content:center; font:30pt/1.2 var(--body); color:var(--muted); text-align:center; }
+/* pipeline: five short steps */
+.pipe { gap:20px; }
+.pipe > div { padding:24px 18px; text-align:center; }
+.pipe h3 { font-size:34pt; }
+.pipe p { font-size:26pt; }
+/* feature name + one-line definition */
+.feat-list { position:absolute; left:110px; top:250px; width:1380px; display:grid; grid-template-columns:420px 1fr; gap:24px 40px; align-items:baseline; font:34pt/1.2 var(--body); }
+.feat-list dt { color:var(--accent); font-family:var(--head); }
+.feat-list dd { margin:0; }
+/* Gemini to Claude table, styled like the Session 2 services table */
+.svc { position:absolute; left:110px; top:215px; width:1380px; border-collapse:collapse; font:26pt/1.2 var(--body); }
+.svc th { padding:0 18px 10px; text-align:left; font:22pt/1 var(--body); color:var(--muted); border-bottom:2px solid rgba(255,255,255,0.25); }
+.svc td { padding:13px 18px; white-space:nowrap; vertical-align:baseline; border-bottom:1px solid rgba(255,255,255,0.1); }
+.svc td:first-child { width:380px; color:var(--muted); }
+.svc td:nth-child(2) { width:420px; color:var(--accent); font-family:var(--head); }
+/* activity recap: Where / Try */
+.recap-title { left:110px; top:48px; width:1380px; height:190px; justify-content:center; font:46pt/1.05 var(--head); }
+.recap-rows { position:absolute; left:110px; top:300px; width:1380px; display:grid; grid-template-columns:240px 1fr; gap:60px 30px; align-items:baseline; font:40pt/1.25 var(--body); }
+.recap-rows dt { color:var(--muted); font-size:28pt; }
+.recap-rows dd { margin:0; }
+.recap-rows .prompt { color:#8ecbff; }
+/* Git tree: three copies of one history */
+.git .box { fill:rgba(255,255,255,0.08); }
+.git .hd { font:30px var(--head); fill:#fff; }
+.git text.n { font:bold 22px var(--body); fill:#002060; }
+.git .e { stroke:#bfbfbf; stroke-width:4; }
+.git .lab { font:30px var(--head); }
+.git .cap { font:36px var(--body); fill:#fff; }
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- Title (same layout as the Session 1 and 2 title slides) -->
+<section class="slide" data-source="new; layout from week-01 title slide">
+<div class="tx" style="left:60px;top:40px;width:800px;height:60px;justify-content:flex-start;font-size:24pt;font-family:var(--body);line-height:1.0"><p style="text-align:left">Dr. G’s AI Study Group</p></div>
+<div class="tx" style="left:112.7px;top:148.6px;width:1332.3px;height:313.3px;justify-content:flex-end;font-size:60pt;font-family:var(--head);line-height:0.9"><p style="text-align:center">AI agents:<br>Claude Code is All You Need</p></div>
+<div class="tx" style="left:368.5px;top:534.1px;width:863.0px;height:217.3px;justify-content:flex-start;font-size:24pt;font-family:var(--body);line-height:1.2"><p style="text-align:center">Xijin “Steven” Ge</p></div>
+</section>
+
+<!-- Launch slow installs first -->
+<section class="slide" data-source="new; content/weeks/week-03/01-homepage.md and planning/activity-plan.md" data-topic="start-now" aria-label="Start now">
+<div class="tx slide-title"><p>Start now</p></div>
+<div class="tx body-list">
+<p class="bullet">Open <span class="accent">VS Code</span></p>
+<p class="bullet">Sign in to <span class="accent">GitHub</span> (Accounts icon, bottom left)</p>
+<p class="bullet">Mac: open Terminal, type <code>git --version</code>, click <span class="accent">Install</span></p>
+</div>
+<aside class="notes" hidden>Get the slow parts going before the talk. Everyone opens VS Code and signs in with GitHub using the Accounts icon at the bottom left. Mac users: the Git install (Xcode command line tools) is several hundred MB and takes 5 to 15 minutes, and the room's Wi-Fi is shared, so start it now: open Terminal, type git --version, and click Install in the pop-up. If Git is already installed, it just prints a version number. Windows users: Copilot installs Git in Activity 1, Step 4. Anyone without a GitHub account can create one now at github.com. Leave the installs running and come back to the talk.</aside>
+</section>
+
+<section class="slide" data-source="new; adapted from week-02 deck 'Six features that save you time'" data-topic="gemini-features-review" aria-label="Gemini features we tried">
+<div class="tx slide-title"><p>Gemini features we tried</p></div>
+<dl class="feat-list">
+<dt>Gemini in Chrome</dt><dd>Ask about any page or video</dd>
+<dt>Connectors</dt><dd>Link Gmail, Calendar, Drive, Canva</dd>
+<dt>Scheduled actions</dt><dd>Tasks that run later or repeat</dd>
+<dt>Canvas</dt><dd>A document or app beside the chat</dd>
+<dt>Notebooks</dt><dd>Files and chats together in one project</dd>
+<dt>Gemini Notebook</dt><dd>Mind maps, flashcards, audio from sources</dd>
+<dt>Skills</dt><dd>Saved instructions; call them with @</dd>
+</dl>
+<aside class="notes" hidden>The core Gemini features from Session 2. Gemini in Chrome and Ask on YouTube answer questions about the page or video you are on (Activity 1). Connectors let Gemini read and act on your Gmail, Calendar, Drive, and Canva (Activities 2, 3, 6). Scheduled actions run a prompt later or on a repeat, like a weekly briefing (Activity 2). Canvas opens a document, slides, quiz, or small app beside the chat (Activity 4). Notebooks keep files and related chats together, so answers are grounded in your sources (Activity 7). Gemini Notebook, formerly NotebookLM, turns those sources into mind maps, flashcards, and podcast-style audio overviews (Activity 8). Skills are saved instructions you call with @ and the name (Activity 9). Each one is a way of putting the right context into the prompt. Remember these names: Claude has most of the same features under different names, next slide.</aside>
+</section>
+
+<section class="slide" data-source="new; Claude feature names checked against claude.ai, Nov 2026" data-topic="gemini-to-claude" aria-label="Same ideas in Claude">
+<div class="tx slide-title" style="height:150px"><p>Same features, different names</p></div>
+<table class="svc">
+<thead><tr><th>Gemini</th><th>Claude</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td>Gemini in Chrome</td><td>Claude in Chrome</td><td>Helps on any web page</td></tr>
+<tr><td>Connectors</td><td>Connectors</td><td>Gmail, Calendar, Drive, and more</td></tr>
+<tr><td>Scheduled actions</td><td>Scheduled tasks</td><td>Runs later or repeats</td></tr>
+<tr><td>Canvas</td><td>Artifacts</td><td>A document or app beside the chat</td></tr>
+<tr><td>Notebooks</td><td>Projects</td><td>Files and chats in one place</td></tr>
+<tr><td>Skills</td><td>Skills</td><td>Saved, reusable instructions</td></tr>
+<tr><td>Deep Research</td><td>Research</td><td>A cited report from many sources</td></tr>
+<tr><td>Antigravity</td><td>Claude Code</td><td>A coding agent on your laptop</td></tr>
+</tbody>
+</table>
+<aside class="notes" hidden>Quick tour, two or three minutes: the ideas carry over, only the names change. Claude in Chrome is a browser extension that reads and acts on the page you are on. Connectors link Gmail, Google Calendar, Google Drive, Canva, and many more (Settings → Connectors), plus custom connectors through MCP, as in Gemini. Scheduled tasks run a prompt later or on a schedule (in the Claude desktop app). Artifacts are Claude's Canvas: documents, slides, and small apps beside the chat; we made HTML apps as Artifacts in Session 1. Projects are like Gemini Notebooks: files, instructions, and chats kept together. Skills work the same way: saved instructions Claude loads when needed, and we will make one today in Claude Code. Research is Claude's Deep Research. Claude Code is the coding agent, like Antigravity, and is the focus of today. No direct match for Gemini Notebook's audio overviews and flashcards. Some features need a paid plan; check the current labels and plans on claude.ai before presenting.</aside>
+</section>
+
+<section class="slide" data-source="new; parallels week-02 'From chat to agent'" data-topic="claude-chat-task-agent" aria-label="Claude: from chat to agent">
+<div class="tx slide-title"><p>Claude: from chat to agent</p></div>
+<div class="cols" style="grid-template-columns:repeat(3,1fr)">
+<div><h3>Chat</h3><p class="prod">claude.ai</p><p class="reach">The conversation</p><p class="prompt">“Make it into slides.”</p></div>
+<div><h3>Task</h3><p class="prod">Claude Cowork</p><p class="reach">+ your files</p><p class="prompt">“Sort these files.”</p></div>
+<div><h3>Coding agent</h3><p class="prod">Claude Code</p><p class="reach">+ code it runs</p><p class="prompt">“Search PubMed.”</p></div>
+</div>
+<aside class="notes" hidden>The same chat, task, and coding agent steps as Gemini last week (Gemini web, Gemini for Desktop, Antigravity): the same LLM with more and more reach, and more autonomy means more risk. Chat: claude.ai on the web, desktop app, or phone, with Artifacts and Projects. Task: Cowork, in the Claude desktop app, works on a folder you choose, like Gemini for Desktop's Task mode; it is built on the same engine as Claude Code but has a friendlier interface. Coding agent: Claude Code runs in a terminal or in VS Code, reads and writes files in your project folder, and runs commands. Today's Activity 2 uses Claude Code to search PubMed and write a report. Cowork needs a paid plan, so I demo it rather than make it an activity. Check product names and plans before presenting.</aside>
+</section>
+
+<!-- ============ Coding agents ============ -->
+
+<section class="slide" data-source="new; matches week-01 section divider" data-topic="coding-agents">
+<div class="tx" style="left:110px;top:224px;width:1380px;height:374px;justify-content:flex-end;font:60pt/0.9 var(--head)"><p style="text-align:center">Coding agents</p></div>
+<aside class="notes" hidden>The main part of today. What a coding agent is, the tools around it (VS Code, Git, GitHub), and how to use one safely.</aside>
+</section>
+
+<section class="slide" data-source="new" data-topic="agent-loop" aria-label="An agent is an LLM with tools in a loop: plan, act, check, repeat">
+<div class="tx slide-title"><p>An agent is an LLM with tools, in a loop</p></div>
+<div class="tx body-list" style="width:780px;font-size:36pt">
+<p><span class="accent">Plan</span>: read files, make a plan</p>
+<p><span class="accent">Act</span>: edit files, run commands</p>
+<p><span class="accent">Check</span>: test, read errors</p>
+<p style="color:var(--muted)">Repeat until done</p>
+</div>
+<svg class="fig" viewBox="0 0 1600 900" aria-hidden="true">
+<g fill="none" stroke="#ffc000" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow-accent)">
+<path d="M1195.4 363.2 A210 210 0 0 1 1318.8 577.0"/>
+<path d="M1233.4 724.9 A210 210 0 0 1 986.6 724.9"/>
+<path d="M901.2 577.0 A210 210 0 0 1 1024.6 363.2"/>
+</g>
+<text x="1110" y="360" text-anchor="middle" style="font:44px var(--head);fill:#ffc000">Plan</text>
+<text x="1292" y="675" text-anchor="middle" style="font:44px var(--head);fill:#ffc000">Act</text>
+<text x="928" y="675" text-anchor="middle" style="font:44px var(--head);fill:#ffc000">Check</text>
+<text x="1110" y="565" text-anchor="middle" style="font:30px var(--body);fill:#bfbfbf">LLM</text>
+</svg>
+<aside class="notes" hidden>Session 1: LLMs can use tools. Session 2: RTutor runs the LLM in a loop for you. A coding agent puts the two together. It reads your files and makes a plan, then acts: edits files and runs commands such as git or a PubMed search. Then it checks: runs the code, reads the errors, and tries again. It keeps looping until the job is done, so one request can turn into dozens of steps. You stay in the loop by approving commands and checking the result.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-03/01-homepage.md key concepts" data-topic="vs-code" aria-label="VS Code: one window for files, agent, and save points">
+<div class="tx slide-title"><p>VS Code: your workbench</p></div>
+<div class="cols" style="grid-template-columns:repeat(3,1fr)">
+<div><h3>Explorer</h3><p>The files in your folder</p><p>Open a folder, not a file</p></div>
+<div><h3>Chat &amp; Terminal</h3><p>Where the agent works</p><p>Copilot in chat, Claude Code in the terminal</p></div>
+<div><h3>Source Control</h3><p>Save points (Git)</p><p>See what changed; undo</p></div>
+</div>
+<aside class="notes" hidden>VS Code is a free app from Microsoft for editing files in a folder. Think of it as a workbench. Explorer on the left shows the files in the folder you opened; the agent can only work in that folder, so always use File → Open Folder. The chat panel on the right is where GitHub Copilot lives (Activity 1); the terminal at the bottom is where we run Claude Code (Activity 2). Source Control shows what the agent changed and lets you save or undo. You don't need to read code: you read the result in a browser and the change list in Source Control.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-03/01-homepage.md key concepts" data-topic="git" aria-label="Git and GitHub">
+<div class="tx slide-title"><p>Git: save points for your folder</p></div>
+<div class="cols" style="grid-template-columns:repeat(3,1fr)">
+<div><h3>Commit</h3><p>A save point you can go back to</p></div>
+<div><h3>Push</h3><p>Send your commits to GitHub</p></div>
+<div><h3>GitHub Pages</h3><p>Turn a repository into a website</p></div>
+</div>
+<div class="tx cols-foot"><p>Commit before and after the agent works.</p></div>
+<aside class="notes" hidden>Git is free version control: it keeps save points of your folder, called commits. GitHub is a website that keeps a copy of your folder, called a repository; push sends your new commits there. GitHub Pages turns a public repository into a free website (Activity 1). Why this matters for agents: an agent can change many files at once. If you commit before and after each step, you can always see exactly what it changed and go back. Asking the agent to "commit this change" is a good habit. In Activity 2, Claude's self-review shows up as a diff in Source Control.</aside>
+</section>
+
+<section class="slide" data-source="new" data-topic="git-tree" aria-label="Git: one history, three copies">
+<div class="tx slide-title" style="height:150px"><p>Git: one history, three copies</p></div>
+<svg class="fig git" viewBox="0 0 1600 900" role="img" aria-label="Three copies of a Git history: your laptop, GitHub.com, and a collaborator's laptop. Commits move between them by push, clone, and pull, and the history branches and merges like a tree.">
+<defs><marker id="git-arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4fc3f7"/></marker></defs>
+<circle cx="1180" cy="125" r="14" fill="#ffc000"/><text class="lab" x="1204" y="135" style="fill:#fff;font-size:26px">You</text>
+<circle cx="1290" cy="125" r="14" fill="#4fc3f7"/><text class="lab" x="1314" y="135" style="fill:#fff;font-size:26px">Collaborator</text>
+<rect class="box" x="530" y="215" width="540" height="200" rx="12"/><text class="hd" x="555" y="257">GitHub.com</text>
+<rect class="box" x="110" y="520" width="560" height="240" rx="12"/><text class="hd" x="135" y="562">Your laptop</text>
+<rect class="box" x="930" y="520" width="560" height="240" rx="12"/><text class="hd" x="955" y="562">Collaborator’s laptop</text>
+<g><line x1="220" y1="640" x2="280" y2="640" class="e"/><circle cx="200" cy="640" r="20" fill="#ffc000"/><text class="n" x="200" y="647" text-anchor="middle">A</text><circle cx="300" cy="640" r="20" fill="#ffc000"/><text class="n" x="300" y="647" text-anchor="middle">B</text><rect x="110" y="790" width="1380" height="80" fill="#002060"/><text class="cap" x="800" y="842" text-anchor="middle">You commit on your laptop: save points A and B.</text></g>
+<g class="step"><path d="M330 512 Q370 330 520 320" fill="none" stroke="#ffc000" stroke-width="5" marker-end="url(#arrow-accent)"/><text class="lab" x="345" y="410" text-anchor="end" style="fill:#ffc000">push</text><line x1="640" y1="320" x2="700" y2="320" class="e"/><circle cx="620" cy="320" r="20" fill="#ffc000"/><text class="n" x="620" y="327" text-anchor="middle">A</text><circle cx="720" cy="320" r="20" fill="#ffc000"/><text class="n" x="720" y="327" text-anchor="middle">B</text><rect x="110" y="790" width="1380" height="80" fill="#002060"/><text class="cap" x="800" y="842" text-anchor="middle">Push: send your commits to GitHub.com.</text></g>
+<g class="step"><path d="M1080 320 Q1250 330 1250 510" fill="none" stroke="#4fc3f7" stroke-width="5" marker-end="url(#git-arrow-blue)"/><text class="lab" x="1235" y="410" text-anchor="start" style="fill:#4fc3f7">clone</text><line x1="1040" y1="640" x2="1100" y2="640" class="e"/><circle cx="1020" cy="640" r="20" fill="#ffc000"/><text class="n" x="1020" y="647" text-anchor="middle">A</text><circle cx="1120" cy="640" r="20" fill="#ffc000"/><text class="n" x="1120" y="647" text-anchor="middle">B</text><rect x="110" y="790" width="1380" height="80" fill="#002060"/><text class="cap" x="800" y="842" text-anchor="middle">Clone: your collaborator copies the whole history.</text></g>
+<g class="step"><line x1="1140" y1="640" x2="1200" y2="640" class="e"/><circle cx="1220" cy="640" r="20" fill="#4fc3f7"/><text class="n" x="1220" y="647" text-anchor="middle">C</text><rect x="110" y="790" width="1380" height="80" fill="#002060"/><text class="cap" x="800" y="842" text-anchor="middle">Your collaborator commits C on their laptop.</text></g>
+<g class="step"><path d="M1060 512 Q1030 470 985 424" fill="none" stroke="#4fc3f7" stroke-width="5" marker-end="url(#git-arrow-blue)"/><text class="lab" x="1065" y="475" text-anchor="start" style="fill:#4fc3f7">push</text><line x1="740" y1="320" x2="800" y2="320" class="e"/><circle cx="820" cy="320" r="20" fill="#4fc3f7"/><text class="n" x="820" y="327" text-anchor="middle">C</text><rect x="110" y="790" width="1380" height="80" fill="#002060"/><text class="cap" x="800" y="842" text-anchor="middle">They push C to GitHub.com.</text></g>
+<g class="step"><line x1="320" y1="640" x2="380" y2="640" class="e"/><circle cx="400" cy="640" r="20" fill="#ffc000"/><text class="n" x="400" y="647" text-anchor="middle">D</text><rect x="110" y="790" width="1380" height="80" fill="#002060"/><text class="cap" x="800" y="842" text-anchor="middle">Meanwhile, you commit D on your laptop.</text></g>
+<g class="step"><path d="M640 424 Q640 480 600 512" fill="none" stroke="#ffc000" stroke-width="5" marker-end="url(#arrow-accent)"/><text class="lab" x="650" y="478" text-anchor="start" style="fill:#ffc000">pull</text><line x1="316.9" y1="650.7" x2="393.1" y2="699.3" class="e"/><line x1="426.9" y1="699.3" x2="503.1" y2="650.7" class="e"/><line x1="420" y1="640" x2="500" y2="640" class="e"/><circle cx="410" cy="710" r="20" fill="#4fc3f7"/><text class="n" x="410" y="717" text-anchor="middle">C</text><circle cx="520" cy="640" r="20" fill="#ffc000"/><text class="n" x="520" y="647" text-anchor="middle">M</text><rect x="110" y="790" width="1380" height="80" fill="#002060"/><text class="cap" x="800" y="842" text-anchor="middle">Pull: Git brings in C and merges the branches (M).</text></g>
+<g class="step"><line x1="737.6" y1="329.6" x2="812.4" y2="370.4" class="e"/><line x1="847.6" y1="370.4" x2="922.4" y2="329.6" class="e"/><line x1="840" y1="320" x2="920" y2="320" class="e"/><circle cx="830" cy="380" r="20" fill="#ffc000"/><text class="n" x="830" y="387" text-anchor="middle">D</text><circle cx="940" cy="320" r="20" fill="#ffc000"/><text class="n" x="940" y="327" text-anchor="middle">M</text><rect x="110" y="790" width="1380" height="80" fill="#002060"/><text class="cap" x="800" y="842" text-anchor="middle">Push again: GitHub.com has everyone’s work.</text></g>
+</svg>
+<aside class="notes" hidden>Click through seven steps. Each dot is a commit (a save point); yellow ones are yours, blue ones your collaborator's. Every copy of the folder, called a repository, keeps the full history as a tree. 1. You commit A and B on your laptop. 2. Push sends them to GitHub.com (Activity 1, Publish Branch and push). 3. A collaborator clones the repository: their laptop gets the whole history. 4. They commit C. 5. They push C to GitHub. 6. Meanwhile, you commit D, so the history has split into two branches. 7. Pull brings C to your laptop, and Git merges the two branches into M; usually automatic, unless you both changed the same lines. 8. Push again, and GitHub has everyone's work. Nothing is overwritten: every save point is still there, so you can always go back. The same applies when the collaborator is an AI agent: it commits, you review the change, and you can undo it. Today we only use the left half, your laptop and GitHub.com.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-03/01-homepage.md and 02-literature.md" data-topic="two-agents" aria-label="Two coding agents today">
+<div class="tx slide-title"><p>Two coding agents today</p></div>
+<div class="cols" style="grid-template-columns:repeat(2,1fr)">
+<div><h3>GitHub Copilot</h3><p class="prod">VS Code chat panel · free</p><p class="reach">Build a homepage</p><p class="prompt">“Build a personal website for a scientist.”</p></div>
+<div><h3>Claude Code</h3><p class="prod">VS Code terminal · API key today</p><p class="reach">Search the literature</p><p class="prompt">“Search PubMed for randomized trials…”</p></div>
+</div>
+<aside class="notes" hidden>Activity 1: GitHub Copilot, free with your GitHub account, lives in VS Code's chat panel. In Agent mode it installs Git, builds a personal website, and helps publish it on GitHub Pages. Activity 2: Claude Code, Anthropic's coding agent, runs in VS Code's terminal. It can carry a long, multi-step job through on its own: search PubMed, screen studies, extract numbers, draw a forest plot, and write a report. Normally Claude Code needs a paid Claude plan; today I provide a temporary API key, which stops working after the session. Both agents work the same way: they ask before running commands, and you check the result.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-03 Important notes" data-topic="agent-safety" aria-label="Stay in charge">
+<div class="tx slide-title"><p>Stay in charge</p></div>
+<div class="tx body-list">
+<p class="bullet">Open only the project folder</p>
+<p class="bullet">Read each command before you click <span class="accent">Allow</span></p>
+<p class="bullet">Treat the API key like a password</p>
+<p class="bullet">A public repository is public</p>
+</div>
+<aside class="notes" hidden>More autonomy, more risk, so take more care. Open only the folder for the project: the agent can read and change anything in it. Both agents show each command before running it; read it, and if you don't understand it, ask "What does this command do?" before allowing. The API key is a password that bills my account: don't share or post it; it works only in the terminal where you paste it and only for today. Your homepage repository is public, so share only what you'd put on a public profile; the literature review goes in a private repository, because it holds journal abstracts and an unchecked AI report.</aside>
+</section>
+
+<section class="slide" data-source="new; week-03 planning/activity-plan.md subagent run, Nov 18, 2026" data-topic="lit-review-pipeline" aria-label="One question, many steps">
+<div class="tx slide-title"><p>One question, many steps</p></div>
+<div class="cols pipe" style="grid-template-columns:repeat(5,1fr)">
+<div><h3>Search</h3><p>49 trials</p></div>
+<div><h3>Screen</h3><p>17 included</p></div>
+<div><h3>Extract</h3><p>11 usable</p></div>
+<div><h3>Plot</h3><p>RR 0.58</p></div>
+<div><h3>Report</h3><p>With references</p></div>
+</div>
+<div class="tx cols-foot" style="top:560px"><p>Do probiotics prevent diarrhea in children taking antibiotics?</p></div>
+<div class="tx cols-foot" style="top:650px;color:var(--fg)"><p>About <span class="accent">4 minutes</span> of agent work</p></div>
+<aside class="notes" hidden>A preview of Activity 2, from my test run on November 18. Claude Code searched PubMed and found 49 trials, screened them and included 17, extracted usable numbers from 11, pooled them in a forest plot (risk ratio 0.58, 95% CI 0.45 to 0.74: about 40% fewer children got diarrhea with probiotics), and wrote a short report with numbered PubMed references. The agent steps took about 3.5 minutes. A literature review like this would take a person days. Your numbers will differ a little from mine and from your neighbor's; that's normal, and a good thing to compare. Note the risk ratio: below 1 means fewer cases with probiotics.</aside>
+</section>
+
+<section class="slide" data-source="new; week-03 planning/activity-plan.md dry runs, Nov 18, 2026" data-topic="agent-mistakes" aria-label="Agents make mistakes too">
+<div class="tx slide-title"><p>Agents make mistakes too</p></div>
+<dl class="feat-list" style="grid-template-columns:460px 1fr">
+<dt>Blank plot</dt><dd>A code bug; I said “The page is blank.”</dd>
+<dt>Invented numbers</dt><dd>Self-review caught them</dd>
+<dt>Different answer</dt><dd>Cochrane 2019: RR about 0.45</dd>
+</dl>
+<div class="tx cols-foot" style="top:640px;color:var(--accent);font-family:var(--head);font-size:40pt"><p>Check it yourself.</p></div>
+<aside class="notes" hidden>From my dry runs. First run: the forest plot page was blank, because the code used a variable named top, which clashes with a built-in browser name. Telling Claude "The page is blank" was enough for it to fix it. Second run: when asked to review its own report, Claude found that it had invented group sizes for one trial and had misordered citations, and fixed them. Self-review helps but can miss things, so Activity 2 ends with you clicking references and checking three studies on PubMed. Finally, compare with the experts: a 2019 Cochrane review of 33 trials found a risk ratio of about 0.45; our quick review gets 0.55 to 0.58. Why might it differ? Abstracts only, one database, a quick search, and a model's judgment in screening. This is a teaching demo, not a real meta-analysis. Plan, produce, review from Session 1 still applies.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-03/02-literature.md Step 11; week-02 Skills" data-topic="skills" aria-label="Skills: save the whole process">
+<div class="tx recap-title"><p><span class="accent">Skills</span>: save the whole process, then reuse it</p></div>
+<dl class="recap-rows">
+<dt>Make</dt><dd class="prompt">“Turn what we just did into a reusable skill.”</dd>
+<dt>Use</dt><dd class="prompt">/mini-meta-analysis Does xylitol prevent ear infections in children?</dd>
+</dl>
+<aside class="notes" hidden>Like the Gemini Skills from Session 2, but a Claude skill can hold a whole multi-step process. At the end of Activity 2, you ask Claude to turn what you just did into a skill called mini-meta-analysis, saved as a SKILL.md file in the folder. Then you run it on a new question with one line. In my test, the xylitol question found 14 trials, pooled 5, and finished in about a minute. Skim SKILL.md: it's plain English, and you can edit it. Run it on a question from your own field afterward.</aside>
+</section>
+
+<!-- ============ Summary: one slide per activity ============ -->
+
+<section class="slide" data-source="new; matches week-01 section divider" data-topic="what-we-tried">
+<div class="tx" style="left:110px;top:224px;width:1380px;height:374px;justify-content:flex-end;font:60pt/0.9 var(--head)"><p style="text-align:center">What we tried</p></div>
+<aside class="notes" hidden>Summary of today's activities, one slide each. Use these to recap at the end, or to point back during discussion.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-03/01-homepage.md" data-topic="recap-copilot">
+<div class="tx recap-title"><p>1. <span class="accent">GitHub Copilot</span>: build and publish a homepage</p></div>
+<dl class="recap-rows">
+<dt>Where</dt><dd>VS Code → Chat → Agent mode</dd>
+<dt>Try</dt><dd class="prompt">“Commit this change and push.”</dd>
+</dl>
+<aside class="notes" hidden>Activity 1. Copilot installed Git, built a personal website with placeholder text, and committed each change. Publish Branch sent it to GitHub, and GitHub Pages turned it into a live site at username.github.io/homepage. Make one change at a time; Keep or Undo, then commit and push. Share your link with the group.</aside>
+</section>
+
+<section class="slide" data-source="new; content/weeks/week-03/02-literature.md" data-topic="recap-claude-code">
+<div class="tx recap-title"><p>2. <span class="accent">Claude Code</span>: search the literature and write a report</p></div>
+<dl class="recap-rows">
+<dt>Where</dt><dd>VS Code → Terminal → <code>claude</code></dd>
+<dt>Try</dt><dd class="prompt">“Review the report. Fix any errors.”</dd>
+</dl>
+<aside class="notes" hidden>Activity 2. Claude Code searched PubMed, screened and extracted studies, drew a forest plot, and wrote a report with references. It reviewed its own work, you checked a few references and studies yourself, and you saved the process as the mini-meta-analysis skill. The workshop key stops working after today; to keep using Claude Code, sign in with your own Claude account.</aside>
+</section>
+
+<section class="slide" data-source="new" data-topic="closing">
+<div class="tx" style="left:110px;top:310px;width:1380px;height:280px;justify-content:center;font:60pt/1.2 var(--head);color:var(--accent)"><p style="text-align:center">The agent does the work.<br>You check it.</p></div>
+<aside class="notes" hidden>Close the series arc: Session 1, chat, where you are the loop; Session 2, AI apps and agents that run the loop for you; today, coding agents that work on your own files. The more the agent does, the more your job becomes deciding what to ask for and checking what comes back. Invite people to share their homepage links and reports in the discussion.</aside>
+</section>
+
+</div>
+<script src="../deck/deck.js"></script>
+</body>
+</html>
